@@ -3,6 +3,7 @@ import { CaptchaService } from "@/services/CaptchaService.js";
 import { Schematic } from "@/structure/Schematic.js";
 import { NORMALIZE_REGEX } from "@/typings/constants.js";
 import { logger } from "@/utils/logger.js";
+import { ranInt } from "@/utils/math.js";
 
 export default Schematic.registerEvent({
     name: "owoMessageEvent",
@@ -34,10 +35,20 @@ export default Schematic.registerEvent({
 
         // 2. Check for Captcha Success
         if (/verified that you are.{1,3}human!/igm.test(normalizedContent)) {
-            logger.info(`CAPTCHA HAS BEEN RESOLVED, ${agent.config.autoResume ? "RESTARTING SELFBOT" : "STOPPING SELFBOT"}...`)
-            if (!agent.config.autoResume) process.exit(0)
-            agent.captchaDetected = false
-            agent.farmLoop()
+            const waitMin = ranInt(5, 11);
+
+            logger.info(`CAPTCHA HAS BEEN RESOLVED, ${agent.config.autoResume ? `RESTARTING SELFBOT IN ${waitMin} MINUTES` : `STOPPING SELFBOT`}...`);
+            if (!agent.config.autoResume) process.exit(0);
+            agent.captchaDetected = false;
+
+            setTimeout(() => {
+                logger.info(`RESUMING AFTER ${waitMin} MINUTE DELAY.`);
+                try {
+                    agent.farmLoop();
+                } catch (err) {
+                    logger.error(err as Error);
+                }
+            }, waitMin * 60_000);
         }
 
         // 3. Check for Ban
