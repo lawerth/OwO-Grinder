@@ -231,7 +231,6 @@
             "autoReload": "Günlük yapılandırma yeniden yüklemeyi aç/kapat",
             "useCustomPrefix": "Sunucu OwO bot prefix'i kullanımını aç/kapat",
             "autoSell": "Para bittiğinde hayvanları otomatik satmayı aç/kapat",
-            "showRPC": "Discord Rich Presence gösterimini aç/kapat",
             "autoResume": "Captcha çözüldükten sonra otomatik devam etmeyi aç/kapat"
         },
         "messages": {

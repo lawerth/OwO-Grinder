@@ -1,25 +1,15 @@
 import { ClientEvents, Collection, GuildTextBasedChannel, Message, RichPresence } from "discord.js-selfbot-v13";
-
 import path from "node:path";
-
 import { ranInt } from "@/utils/math.js";
 import { logger } from "@/utils/logger.js";
 import { watchConfig } from "@/utils/watcher.js";
-import {
-    AwaitResponseOptions,
-    AwaitSlashResponseOptions,
-    CommandProps,
-    FeatureProps,
-    SendMessageOptions
-} from "@/typings/index.js";
-
+import { AwaitResponseOptions, AwaitSlashResponseOptions, CommandProps, FeatureProps, SendMessageOptions } from "@/typings/index.js";
 import { Configuration } from "@/schemas/ConfigSchema.js";
 import featuresHandler from "@/handlers/featuresHandler.js";
 import { t, getCurrentLocale } from "@/utils/locales.js";
 import { shuffleArray } from "@/utils/array.js";
 import commandsHandler from "@/handlers/commandsHandler.js";
 import eventsHandler from "@/handlers/eventsHandler.js";
-
 import { ExtendedClient } from "./core/ExtendedClient.js";
 import { CooldownManager } from "./core/CooldownManager.js";
 import { fileURLToPath } from "node:url";
@@ -252,23 +242,6 @@ export class BaseAgent {
         return Promise.resolve(message);
     }
 
-    private loadPresence = () => {
-        const rpc = new RichPresence(this.client)
-            .setApplicationId(this.miraiID)
-            .setType("PLAYING")
-            .setName("Mirai Kuriyama")
-            .setDetails("The day the emperor returns!")
-            .setStartTimestamp(this.client.readyTimestamp)
-            .setAssetsLargeImage("1312264004382621706")
-            .setAssetsLargeText("Advanced Discord OwO Tool Farm")
-            .setAssetsSmallImage("1306938859552247848")
-            .setAssetsSmallText("Copyright © Kyou-Izumi 2025")
-            .addButton("GitHub", "https://github.com/Kyou-Izumi/advanced-discord-owo-tool-farm")
-            .addButton("YouTube", "https://www.youtube.com/@daongotau")
-
-        this.client.user.setPresence({ activities: [rpc] });
-    }
-
     public farmLoop = async () => {
         if (this.farmLoopRunning) {
             logger.debug("Double farm loop detected, skipping this iteration.");
@@ -367,8 +340,6 @@ export class BaseAgent {
             t,
             locale: getCurrentLocale(),
         });
-
-        if (this.config.showRPC) this.loadPresence();
     }
 
     public static initialize = async (client: ExtendedClient<true>, config: Configuration) => {

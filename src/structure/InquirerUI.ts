@@ -108,10 +108,6 @@ export class InquirerUI {
             t("ui.toggleOptions.autoSell"),
             this.config.autoSell
         );
-        this.config.showRPC = await this.configPrompter.trueFalse(
-            t("ui.toggleOptions.showRPC"),
-            this.config.showRPC
-        );
         this.config.autoResume = await this.configPrompter.trueFalse(
             t("ui.toggleOptions.autoResume"),
             this.config.autoResume

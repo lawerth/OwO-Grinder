@@ -231,7 +231,6 @@
             "autoReload": "Bật/tắt tự động tải lại cấu hình hàng ngày",
             "useCustomPrefix": "Bật/tắt sử dụng prefix bot OwO của server",
             "autoSell": "Bật/tắt tự động bán động vật khi hết tiền",
-            "showRPC": "Bật/tắt hiển thị Discord Rich Presence",
             "autoResume": "Bật/tắt tự động tiếp tục sau khi giải captcha"
         },
         "messages": {

@@ -1,22 +1,6 @@
-# ADVANCED DISCORD OWO TOOL FARM
+# OWO HUNTING BOT
 
-This is a community version and currently in progress
-
-Please report bugs and keep on track with our announcement!
-
-> `Advanced discord OwO selfbot` is currently in maintenance mode. Future updates focus on bug fixes and improvements rather than new features. Thank you for trusting and being with us throughout the 3-year journey.
->
-> If you have any question/suggestion, feel free to submit your idea to us.
-> 
-> Please report if you have any issue/bug/error while using, I will try my best to help with responsibility.
-
-
-```
->>> Captcha from owobot.com/captcha is now supported
-```
-
-> [!TIP]
-> **Check out this discussion: https://github.com/Kyou-Izumi/discord-owo-selfbot/discussions/45**
+This is a community version and currently in progress. Please report bugs and keep on track with our announcement!
 
 ##  Requirement
 __Node.js Version:__ v22.11.0 and above
@@ -29,12 +13,6 @@ For IOS: Not yet (please tell us if you know any supporting method)
 
 __Note:__ Termux from Google Play Store is unsupported.
 
-## Tutorial
-
-__A full tutorial on how to use the tool is now available!__
-
- - [[2021-Present] GREATEST Advanced Discord OwO Tool Farm](https://youtu.be/-oYY3ZdqPy8)
-
 ## Installation
 
 ### Node.js installation
@@ -42,8 +20,6 @@ __A full tutorial on how to use the tool is now available!__
 ##### Windows/Linux/MacOS:
 
 Please make sure that you have installed [Node.js LTS](https://nodejs.org/en/download) on your devices.
-
-![Imgur](https://i.imgur.com/swvzF0k.png)
 
 ##### Termux:
 
@@ -56,14 +32,14 @@ apt install -y nodejs-lts git
 
 ### Tool installation
 
-[Download and extract the module](https://github.com/Kyou-Izumi/advanced-discord-owo-tool-farm/archive/refs/heads/main.zip) or clone/pull it using [Git](https://git-scm.com/downloads):
+[Download and extract the module](https://github.com/lawerth/owo-farming-bot/archive/refs/heads/main.zip) or clone/pull it using [Git](https://git-scm.com/downloads):
 ```bash
-git clone https://github.com/Kyou-Izumi/advanced-discord-owo-tool-farm.git
+git clone https://github.com/lawerth/owo-farming-bot.git
 ```
 
 [Open the terminal inside folder](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/) where you downloaded the tool
 ```bash
-cd advanced-discord-owo-tool-farm
+cd owo-farming-bot
 ```
 and run the following command:
 
@@ -71,35 +47,6 @@ and run the following command:
 npm install
 ```
 This will install all the requirements (libraries) for the tool to run correctly.
-
-### Get token
-
-Method 1: Follow [this instruction](https://pcstrike.com/how-to-get-discord-token/) to get your account token.
-
-Method 2: Press __Ctrl + Shift + I__ and paste the following function.
-
-```javascript
-window.webpackChunkdiscord_app.push([
-    [Symbol()],
-    {},
-    req => {
-        if (!req.c) return;
-        for (let m of Object.values(req.c)) {
-            try {
-                if (!m.exports || m.exports === window) continue;
-                if (m.exports?.getToken) return copy(m.exports.getToken());
-                for (let ex in m.exports) {
-                    if (m.exports?.[ex]?.getToken && m.exports[ex][Symbol.toStringTag] !== 'IntlMessagesProxy') return copy(m.exports[ex].getToken());
-                }
-            } catch {}
-        }
-    },
-]);
-
-window.webpackChunkdiscord_app.pop();
-console.log('%cWorked!', 'font-size: 50px');
-console.log(`%cYou now have your token in the clipboard!`, 'font-size: 16px');
-```
 
 ## Usage
 
@@ -110,14 +57,6 @@ For running the tool, please use the following command (inside tool folder)
 ```bash
 npm start
 ```
-
-If you see the following warning 
-
-![Imgur](https://i.imgur.com/jSTfrOr.png)
-
-Congratulation, you have installed our `Advanced discord OwO tool farm` successfully.
-
-Type "Y", enter and enjoy your time! (The tool will exit if you press enter only)
 
 #### Account Login
 
@@ -260,7 +199,6 @@ npm start import config.json # Trigger auto import and run with given config.jso
     "autoSleep": true, // Create random pause gaps (5-20 mins)
     "autoReload": true, // Auto reload config daily
     "autoResume": true, // Auto resume after solving captcha
-    "showRPC": true // Show Discord Rich Presence
 }
 ```
 ### Complete Example
@@ -293,7 +231,6 @@ npm start import config.json # Trigger auto import and run with given config.jso
     "autoSleep": true,
     "autoReload": true,
     "autoResume": true,
-    "showRPC": true
 }
 ```
 
@@ -452,13 +389,6 @@ A: Your config should be preserved. If lost, regenerate it with `npm start gener
 
 ### Support
 
-**Q: Where can I get help?**
-
-A: 
-- Join our [Discord Server](https://discord.gg/Yr92g5Zx3e)
-- Check [SECURITY.md](doc/security/README.md) for security guidelines
-- Open an issue on GitHub for bugs
-
 **Q: How do I report a bug?**
 
 A: Please provide:
@@ -474,9 +404,6 @@ A: Yes! Open a GitHub discussion or join our Discord server to suggest features.
 ## Caution
 Recently, there have been reports of hacked accounts and lost currency associated with the use of certain tools. For your safety, it is advised to avoid any kind of obfuscated or suspicious code. Prioritize security and exercise caution when using external code or tools. Stay informed, trust reliable sources, and adopt good security practices to protect your accounts and data.
 
-For more information: [SECURITY.md](doc/security/README.md)
-
-![Imgur](doc/security/security-warning.png)
 ## Achievements
 ✔ CLI support
 
@@ -548,7 +475,7 @@ Your stars serve as fuel for our spirits, igniting our passion and dedication to
 
 Your stars inspire us to keep pushing boundaries, overcome challenges, and bring about meaningful change.
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Kyou-Izumi/advanced-discord-owo-tool-farm&type=Date)](https://www.star-history.com/#Kyou-Izumi/advanced-discord-owo-tool-farm&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=lawerth/owo-farming-bot&type=Date)](https://www.star-history.com/#lawerth/owo-farming-bot&Date)
 
 ## Contributing
 
@@ -605,11 +532,3 @@ __SPECIAL THANKS TO:__
 ✨ This project is licensed under a Custom Non-Commercial License. You are free to use, modify, and distribute this software for **non-commercial purposes only**. 
 
 For commercial use, you must obtain written permission from the author and maintain proper attribution. See the [LICENSE](LICENSE) file for full details.
-
-## Additional Information
-
-💖 Made by Vietnamese with love
-
-⛱️ Copyright © Kyou Izumi 2021-2025
-
-💫 We are BKI members (Baka Island - Đảo Ngố Tàu)

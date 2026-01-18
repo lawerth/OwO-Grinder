@@ -69,7 +69,6 @@ export const ConfigSchema = z.object({
     autoSell: z.boolean().default(true),
     autoReload: z.boolean().default(true),
     autoResume: z.boolean().default(true),
-    showRPC: z.boolean().default(true),
 }).check(({ issues, value }) => {
     if (value.wayNotify.includes("webhook") && !value.webhookURL) {
         issues.push({

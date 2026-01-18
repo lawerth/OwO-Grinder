@@ -30,7 +30,7 @@ export class WebhookNotifier implements NotifierStrategy {
                         : "#00FF00"
                 )
                 .setFooter({
-                    text: "Copyright BKI Kyou Izumi © 2022-2025",
+                    text: "Copyright Lawerth © 2026",
                     iconURL: "https://i.imgur.com/EqChQK1.png",
                 })
                 .setTimestamp();

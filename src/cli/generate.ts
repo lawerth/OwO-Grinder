@@ -44,8 +44,7 @@ export const handler = async (argv: { filename: string }) => {
         autoSell: true,
         autoSleep: true,
         autoReload: true,
-        autoResume: true,
-        showRPC: true
+        autoResume: true
     };
 
     const filePath = path.resolve(process.cwd(), argv.filename);

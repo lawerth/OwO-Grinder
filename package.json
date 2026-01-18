@@ -1,7 +1,7 @@
 {
-  "name": "advanced-discord-owo-tool-farm",
-  "version": "4.0.0-alpha-2.7",
-  "description": "Community Discord OwO Selfbot made in Vietnam [Copyright © Kyou-Izumi 2025]",
+  "name": "owo-hunting-bot",
+  "version": "1.0.0",
+  "description": "Community Discord OwO Hunting Bot [Copyright © Lawerth 2026]",
   "main": "index.ts",
   "type": "module",
   "engines": {
@@ -17,25 +17,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kyou-Izumi/advanced-discord-owo-tool-farm.git"
+    "url": "git+https://github.com/lawerth/owo-farming-bot.git"
   },
   "keywords": [
     "discord-owo-selfbot",
     "discord-owo-tool",
     "owo-auto-farm",
     "owo-tool-farm",
-    "owo-selfbot"
+    "owo-selfbot",
+    "owo-farming-bot"
   ],
   "author": {
-    "name": "Kyou Izumi",
-    "email": "ntt.eternity2k6@gmail.com",
-    "url": "https://www.facebook.com/LongAKolangle"
+    "name": "Lawerth",
+    "email": "lawerth@proton.me"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Kyou-Izumi/advanced-discord-owo-tool-farm/issues"
+    "url": "https://github.com/lawerth/owo-farming-bot/issues"
   },
-  "homepage": "https://github.com/Kyou-Izumi/advanced-discord-owo-tool-farm#readme",
+  "homepage": "https://github.com/lawerth/owo-farming-bot#readme",
   "dependencies": {
     "@inquirer/core": "^10.1.14",
     "@inquirer/prompts": "^7.6.0",
@@ -43,11 +43,13 @@
     "adm-zip": "^0.5.16",
     "axios": "^1.10.0",
     "axios-cookiejar-support": "^6.0.3",
+    "canvas": "^3.2.1",
     "chalk": "^5.4.1",
     "cross-env": "^7.0.3",
     "debug": "^4.4.1",
     "discord.js-selfbot-v13": "^3.7.0",
     "lodash": "^4.17.21",
+    "node-fetch": "^3.3.2",
     "node-notifier": "^10.0.1",
     "tough-cookie": "^5.1.2",
     "winston": "^3.17.0",

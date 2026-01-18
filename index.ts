@@ -9,7 +9,7 @@ import { hideBin } from "yargs/helpers";
 import packageJSON from "./package.json" with { type: "json" };
 import { Locale } from "@/utils/locales.js";
 
-process.title = `Advanced Discord OwO Tool Farm v${packageJSON.version} - Copyright 2025 © Elysia x Kyou Izumi`;
+process.title = `Advanced Discord OwO Tool Farm v${packageJSON.version} - Copyright 2026 © Lawerth`;
 console.clear();
 
 const updateFeature = new UpdateFeature();

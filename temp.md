@@ -249,7 +249,6 @@ export class DiscordClientManager {
 	public registerEvents() {
 		this.agent.once("ready", async () => {
 			logger.info("Logged in as " + this.agent.user?.displayName);
-			// RPC, commands, presence etc.
 		});
 
 		// External handlers
@@ -682,15 +681,10 @@ project-root/
 ├── run.bat
 ├── test.js
 ├── LICENSE
-├── SECURITY.md
 ├── CHANGELOG.md
 ├── obfuscate.cmd
 │
-├───docs/
-│   └───security/
-│       └───[Mid0aria] owofarmbot_stable/
-│
-├───logs/
+├───logs
 │   └── console.log
 │
 ├───src/

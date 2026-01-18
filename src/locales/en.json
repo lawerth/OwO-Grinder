@@ -231,7 +231,6 @@
             "autoReload": "Toggle automatically reload config daily",
             "useCustomPrefix": "Toggle using server OwO bot prefix",
             "autoSell": "Toggle automatically sell animals once cash ran out",
-            "showRPC": "Toggle showing Discord Rich Presence",
             "autoResume": "Toggle automatically resume after the captcha is solved"
         },
         "messages": {
