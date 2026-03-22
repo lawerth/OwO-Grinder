@@ -24,14 +24,17 @@ export class PopupNotifier implements NotifierStrategy {
     }
 
     private handleTermuxPopup(payload: NotificationPayload): void {
-        const args = [
-            "--title", payload.title,
+        const args: string[] = [
             "--content", payload.description,
             "--priority", "high",
             "--sound",
             "--vibrate", "1000",
             "--id", "owo-farm-captcha", // Consistent ID
         ];
+
+        if (payload.title) {
+            args.push("--title", payload.title);
+        }
 
         if (payload.sourceUrl) {
             args.push("--action", `termux-open-url ${payload.sourceUrl}`);

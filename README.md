@@ -50,7 +50,7 @@ For running the tool, please use the following command (inside tool folder):
 npm start
 ```
 
-##### 🔸 CLI usage (Command Line Interface):
+##### 🔸 CLI Usage (Command Line Interface):
 
 ```bash
 node . [command] [options]
@@ -66,6 +66,8 @@ npm start import config.json # Trigger auto import and run with given config.jso
 -u, --update # Update without asking
 -v, --verbose # Enable debug
 ```
+
+---
 
 # ⚙️ Configuration Guide
 
@@ -121,6 +123,8 @@ npm start import config.json # Trigger auto import and run with given config.jso
     "autoResume": true, // Auto resume after solving captcha
 }
 ```
+
+---
 
 <div align="center">
     <h3>📞 Need Help?</h3>
