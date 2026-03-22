@@ -1,7 +1,5 @@
-
 import path from "node:path";
 import fs from "node:fs";
-import os from "node:os";
 
 import { logger } from "@/utils/logger.js";
 import { t } from "@/utils/locales.js";
@@ -30,7 +28,7 @@ export class DataManager {
     private readonly filePath: string;
 
     constructor(
-        filePath = path.join(os.homedir(), "b2ki-ados", "data.json") // Default path to user's home directory
+        filePath = path.join(process.cwd(), "data.json") // Default path to project root
     ) {
         this.filePath = filePath;
         this.ensureFileExists();

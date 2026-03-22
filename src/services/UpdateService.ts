@@ -23,7 +23,7 @@ export class UpdateFeature {
         try {
             const { version: currentVersion } = packageJSON;
             const { data: { version: latestVersion } } = await axios.get(
-                "https://raw.githubusercontent.com/lawerth/owo-farming-bot/refs/heads/main/package.json",
+                "https://raw.githubusercontent.com/lawerth/OwO-Grinder/refs/heads/main/package.json",
                 {
                     headers: this.baseHeaders
                 }
@@ -58,7 +58,7 @@ export class UpdateFeature {
     private manualUpdate = async () => {
         try {
             const extractedFolderName = await downloadAndExtractRepo(
-                "https://github.com/lawerth/owo-farming-bot/archive/refs/heads/main.zip",
+                "https://github.com/lawerth/OwO-Grinder/archive/refs/heads/main.zip",
                 os.tmpdir()
             );
             const extractedPath = path.join(os.tmpdir(), extractedFolderName);

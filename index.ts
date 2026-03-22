@@ -8,6 +8,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import packageJSON from "./package.json" with { type: "json" };
 import { Locale } from "@/utils/locales.js";
+import "dotenv/config.js";
 
 process.title = `Advanced Discord OwO Tool Farm v${packageJSON.version} - Copyright 2026 © Lawerth`;
 console.clear();
@@ -16,7 +17,7 @@ const updateFeature = new UpdateFeature();
 const client = new ExtendedClient();
 
 const argv = await yargs(hideBin(process.argv))
-    .scriptName("adotf")
+    .scriptName("owo-grinder")
     .usage("$0 <command> [options]")
     .commandDir("./src/cli", {
         extensions: ["ts", "js"],
@@ -37,15 +38,16 @@ const argv = await yargs(hideBin(process.argv))
         alias: "l",
         type: "string",
         description: "Set the language for the application",
-        choices: ["en", "tr", "vi"],
-        default: "en",
+        choices: ["en", "tr"],
+        default: process.env.LOCALE || "en",
+    })
+    .middleware((argv) => {
+        logger.setLevel(argv.verbose || process.env.NODE_ENV === "development" ? "debug" : "sent");
+        process.env.LOCALE = argv.language as Locale || "en";
     })
     .help()
     .epilogue(`For more information, visit ${packageJSON.homepage}`)
     .parse();
-
-logger.setLevel(argv.verbose || process.env.NODE_ENV === "development" ? "debug" : "sent");
-process.env.LOCALE = argv.language as Locale || "en";
 
 if (!argv._.length) {
     if (!argv.skipCheckUpdate) {

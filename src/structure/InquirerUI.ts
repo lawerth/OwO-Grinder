@@ -32,6 +32,9 @@ export class InquirerUI {
         if (this.config.wayNotify.includes("webhook")) {
             this.config.webhookURL = await this.configPrompter.getWebhookURL(this.config.webhookURL);
         }
+        if (this.config.wayNotify.includes("ntfy")) {
+            this.config.ntfyChannel = await this.configPrompter.getNtfyChannel(this.config.ntfyChannel);
+        }
         if (this.config.wayNotify.some(w => (<Configuration["wayNotify"]>["webhook", "call", "dms"]).includes(w))) {
             this.config.adminID = await this.configPrompter.getAdminID(guild, this.config.adminID);
         }
@@ -66,7 +69,7 @@ export class InquirerUI {
 
         if (this.config.autoHuntbot) {
             this.config.autoTrait = await this.configPrompter.getTrait(this.config.autoTrait);
-            this.config.useAdotfAPI = await this.configPrompter.getHuntbotSolver(this.config.useAdotfAPI);
+            this.config.useOurHuntbotAPI = await this.configPrompter.getHuntbotSolver(this.config.useOurHuntbotAPI);
         }
 
         this.config.autoCookie = await this.configPrompter.trueFalse(
@@ -87,6 +90,15 @@ export class InquirerUI {
         this.config.autoPray = await this.configPrompter.getPrayCurse(this.config.autoPray);
         this.config.autoQuote = await this.configPrompter.getQuoteAction(this.config.autoQuote);
         this.config.autoRPP = await this.configPrompter.getRPPAction(this.config.autoRPP);
+        this.config.autoBuy = await this.configPrompter.getAutoBuy(this.config.autoBuy);
+        this.config.autoArmy = await this.configPrompter.trueFalse(
+            t("ui.toggleOptions.autoArmy"),
+            this.config.autoArmy
+        );
+        this.config.autoBossFight = await this.configPrompter.trueFalse(
+            t("ui.toggleOptions.autoBossFight"),
+            this.config.autoBossFight
+        );
 
         this.config.autoDaily = await this.configPrompter.trueFalse(
             t("ui.toggleOptions.autoDaily"),

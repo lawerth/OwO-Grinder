@@ -38,8 +38,32 @@ export default Schematic.registerEvent({
             const waitMin = ranInt(5, 11);
 
             logger.info(`CAPTCHA HAS BEEN RESOLVED, ${agent.config.autoResume ? `RESTARTING SELFBOT IN ${waitMin} MINUTES` : `STOPPING SELFBOT`}...`);
+            
+            // Update webhook if manual resolution occurred
+            if (agent.captchaDetected && agent.lastCaptchaResults) {
+                const { NotificationService } = await import("@/services/NotificationService.js");
+                const notificationService = new NotificationService();
+                const webhookID = agent.lastCaptchaResults.get("webhook");
+                const dotEmoji = "<a:dot:1484687154780045442>";
+
+                if (webhookID) {
+                    await notificationService.notify(params, {
+                        messageID: webhookID,
+                        description: `${dotEmoji} **Status:** ✅ Manually Resolved\n${dotEmoji} **Resolution Type:** User Manual Interaction\n${dotEmoji} Bot will resume in **${waitMin} minutes**.`,
+                        urgency: "normal",
+                        content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA RESOLVED](${message.url}) ${agent.client.user?.username}`,
+                        author: {
+                            name: agent.client.user?.tag ?? "Unknown User",
+                            iconURL: agent.client.user?.displayAvatarURL(),
+                        },
+                        sourceUrl: message.url,
+                    });
+                }
+            }
+
             if (!agent.config.autoResume) process.exit(0);
             agent.captchaDetected = false;
+            agent.lastCaptchaResults = undefined;
 
             setTimeout(() => {
                 logger.info(`RESUMING AFTER ${waitMin} MINUTE DELAY.`);

@@ -1,6 +1,5 @@
 import { Configuration } from "@/schemas/ConfigSchema.js";
 import { BaseParams, CaptchaSolver } from "@/typings/index.js";
-import { TwoCaptchaSolver } from "@/services/solvers/TwoCaptchaSolver.js";
 import { YesCaptchaSolver } from "@/services/solvers/YesCaptchaSolver.js";
 import { downloadAttachment } from "@/utils/download.js";
 import { logger } from "@/utils/logger.js";
@@ -12,6 +11,7 @@ import { Message, MessageActionRow, MessageButton } from "discord.js-selfbot-v13
 import { NORMALIZE_REGEX } from "@/typings/constants.js";
 import { NotificationService } from "./NotificationService.js";
 
+const dotEmoji = "<a:dot:1484687154780045442>";
 interface CaptchaServiceOptions {
     provider?: Configuration["captchaAPI"];
     apiKey?: string;
@@ -38,8 +38,7 @@ const createSolver = (provider: Configuration["captchaAPI"], apiKey: string): Ca
     switch (provider) {
         case "yescaptcha":
             return new YesCaptchaSolver(apiKey);
-        case "2captcha":
-            return new TwoCaptchaSolver(apiKey);
+
         default:
             logger.error(`Unknown captcha provider: ${provider}`);
             return undefined;
@@ -188,7 +187,7 @@ export class CaptchaService {
         logger.info("✅ hCaptcha verification successful!");
     }
 
-    public static async handleCaptcha(params: BaseParams, message: Message, retries: number = 0): Promise<void> {
+    public static async handleCaptcha(params: BaseParams, message: Message, retries: number = 0, previousResults?: Map<string, any>): Promise<void> {
         const { agent } = params;
         const normalizedContent = message.content.normalize("NFC").replace(NORMALIZE_REGEX, "");
         const maxRetries = 1;
@@ -199,13 +198,47 @@ export class CaptchaService {
         });
         const notificationService = new NotificationService();
 
-        // Only notify on first attempt
+        // Initial notification (Detecting)
+        let currentResults = previousResults;
+        const webhookID = currentResults?.get("webhook");
+        const attachmentUrl = message.attachments.first()?.url;
+
         if (retries === 0) {
             NotificationService.consoleNotify(params);
+            
+            currentResults = await notificationService.notify(params, {
+                description: `${dotEmoji} **Status:** ⏳ Detecting / Solving...\n${dotEmoji} **Captcha Type:** ${attachmentUrl ? `[Image Captcha](${attachmentUrl})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Attempt:** ${retries + 1}/${maxRetries + 1}`,
+                urgency: "normal",
+                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED](${message.url}) ${agent.client.user?.username}`,
+                author: {
+                    name: agent.client.user?.tag ?? "Unknown User",
+                    iconURL: agent.client.user?.displayAvatarURL(),
+                },
+                sourceUrl: message.url,
+                imageUrl: attachmentUrl,
+            });
+            agent.lastCaptchaResults = currentResults;
+        } else if (webhookID) {
+            // Update notification for subsequent attempts
+            currentResults = await notificationService.notify(params, {
+                messageID: webhookID,
+                description: `${dotEmoji} **Status:** ⏳ Retrying / Solving...\n${dotEmoji} **Captcha Type:** ${attachmentUrl ? `[Image Captcha](${attachmentUrl})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Attempt:** ${retries + 1}/${maxRetries + 1}`,
+                urgency: "normal",
+                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED](${message.url}) ${agent.client.user?.username}`,
+                author: {
+                    name: agent.client.user?.tag ?? "Unknown User",
+                    iconURL: agent.client.user?.displayAvatarURL(),
+                },
+                sourceUrl: message.url,
+                imageUrl: attachmentUrl,
+            });
+            agent.lastCaptchaResults = currentResults;
         }
 
+        // Update webhookID again if it was just created (retries === 0)
+        const activeWebhookID = currentResults?.get("webhook") || webhookID;
+
         try {
-            const attachmentUrl = message.attachments.first()?.url;
             if (attachmentUrl) {
                 logger.debug(`Image captcha detected, attempting to solve... (Attempt ${retries + 1}/${maxRetries + 1})`);
                 const solution = await captchaService.solveImageCaptcha(attachmentUrl);
@@ -243,29 +276,21 @@ export class CaptchaService {
             agent.totalCaptchaSolved++;
             logger.info(`Captcha solved successfully on attempt ${retries + 1}!`);
 
-            // Only notify on successful resolution
-            await notificationService.notify(params, {
-                title: "CAPTCHA DETECTED",
-                description: "Status: ✅ RESOLVED",
+            // Update notification to Resolved
+            currentResults = await notificationService.notify(params, {
+                messageID: activeWebhookID,
+                description: `${dotEmoji} **Status:** ✅ Resolved\n${dotEmoji} **Captcha Type:** ${attachmentUrl ? `[Image Captcha](${attachmentUrl})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Attempt:** ${retries + 1}/${maxRetries + 1}`,
                 urgency: "normal",
-                content: `${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}Captcha detected in channel: <#${message.channel.id}>`,
+                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED](${message.url}) ${agent.client.user?.username}`,
+                author: {
+                    name: agent.client.user?.tag ?? "Unknown User",
+                    iconURL: agent.client.user?.displayAvatarURL(),
+                },
                 sourceUrl: message.url,
                 imageUrl: attachmentUrl,
-                fields: [
-                    {
-                        name: "Captcha Type",
-                        value: attachmentUrl
-                            ? `[Image Captcha](${attachmentUrl})`
-                            : "[Link Captcha](https://owobot.com/captcha)",
-                        inline: true
-                    },
-                    {
-                        name: "Attempt",
-                        value: `${retries + 1}/${maxRetries + 1}`,
-                        inline: true
-                    }
-                ]
             });
+            agent.lastCaptchaResults = currentResults;
+            agent.captchaDetected = false;
         } catch (error) {
             logger.error(`Failed to solve captcha on attempt ${retries + 1}:`);
             logger.error(error as Error);
@@ -273,45 +298,28 @@ export class CaptchaService {
             // Retry logic
             if (retries < maxRetries) {
                 logger.warn(`Retrying captcha solving after 3 seconds... (${retries + 1}/${maxRetries})`);
-                await new Promise(resolve => setTimeout(resolve, 3000)); // Wait 3 seconds before retry
-                return CaptchaService.handleCaptcha(params, message, retries + 1);
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                return CaptchaService.handleCaptcha(params, message, retries + 1, currentResults);
             }
 
-            // Max retries reached, give up - only notify on complete failure
+            // Max retries reached, give up - update notification to Unresolved
             logger.alert(`All ${maxRetries + 1} attempts to solve captcha failed, waiting for manual resolution.`);
             logger.info(`WAITING FOR THE CAPTCHA TO BE RESOLVED TO ${agent.config.autoResume ? "RESTART" : "STOP"}...`);
 
             agent.totalCaptchaFailed++;
-            await notificationService.notify(params, {
-                title: "CAPTCHA DETECTED",
-                description: `Status: ❌ **UNRESOLVED**`,
+            currentResults = await notificationService.notify(params, {
+                messageID: activeWebhookID,
+                description: `${dotEmoji} **Status:** ❌ Unresolved\n${dotEmoji} **Captcha Type:** ${message.attachments.first() ? `[Image Captcha](${message.attachments.first()?.url})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Failed Attempts:** ${maxRetries + 1}/${maxRetries + 1}\n${dotEmoji} **Last Error:** \`${error instanceof Error ? error.message : String(error)}\`\n\n-# The 10-minute countdown will end in <t:${Math.floor(message.createdTimestamp / 1000 + 600)}:R>.`,
                 urgency: "critical",
-                content: `${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}Captcha detected in channel: <#${message.channel.id}>`,
+                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED:](${message.url}) ${agent.client.user?.username}`,
+                author: {
+                    name: agent.client.user?.tag ?? "Unknown User",
+                    iconURL: agent.client.user?.displayAvatarURL(),
+                },
                 sourceUrl: message.url,
                 imageUrl: message.attachments.first()?.url,
-                fields: [
-                    {
-                        name: "Captcha Type",
-                        value: message.attachments.first()
-                            ? `[Image Captcha](${message.attachments.first()?.url})`
-                            : "[Link Captcha](https://owobot.com/captcha)",
-                        inline: true
-                    },
-                    {
-                        name: "Failed Attempts",
-                        value: `${maxRetries + 1}/${maxRetries + 1}`,
-                        inline: true
-                    },
-                    {
-                        name: "Last Error",
-                        value: `\`${error instanceof Error ? error.message : String(error)}\``,
-                    },
-                    {
-                        name: "Please resolve the captcha manually before",
-                        value: `<t:${Math.floor(message.createdTimestamp / 1000 + 600)}:f>`,
-                    },
-                ]
             });
+            agent.lastCaptchaResults = currentResults;
         }
     }
 }

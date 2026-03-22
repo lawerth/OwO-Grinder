@@ -5,6 +5,7 @@ import { MessageNotifier } from "./notifiers/MessageNotifier.js";
 import { CallNotifier } from "./notifiers/CallNotifier.js";
 import { SoundNotifier } from "./notifiers/SoundNotifier.js";
 import { PopupNotifier } from "./notifiers/PopupNotifier.js";
+import { NtfyNotifier } from "./notifiers/NtfyNotifier.js";
 import { formatTime } from "@/utils/time.js";
 
 export class NotificationService {
@@ -17,29 +18,32 @@ export class NotificationService {
             ["call", new CallNotifier()],
             ["music", new SoundNotifier()],
             ["popup", new PopupNotifier()],
+            ["ntfy", new NtfyNotifier()],
         ]);
     }
 
-    public async notify(params: FeatureFnParams, payload: NotificationPayload): Promise<void> {
+    public async notify(params: FeatureFnParams, payload: NotificationPayload): Promise<Map<string, any>> {
         const enabledNotifiers = params.agent.config.wayNotify;
         logger.debug(`Sending notification to: ${enabledNotifiers.join(", ")}`);
 
+        const results = new Map<string, any>();
         const notificationPromises = enabledNotifiers.map(async notifierName => {
             const strategy = this.strategies.get(notifierName);
             if (strategy) {
-                // Wrap in a promise to catch any synchronous errors in execute
                 try {
-                    return await Promise.resolve(strategy.execute(params, payload));
+                    const result = await Promise.resolve(strategy.execute(params, payload));
+                    results.set(notifierName, result);
                 } catch (err) {
                     logger.error(`Unhandled error in ${notifierName} notifier:`);
                     logger.error(err as Error);
                 }
+            } else {
+                logger.warn(`Unknown notifier specified in config: ${notifierName}`);
             }
-            logger.warn(`Unknown notifier specified in config: ${notifierName}`);
-            return Promise.resolve();
         });
 
         await Promise.all(notificationPromises);
+        return results;
     }
 
     public static consoleNotify({ agent, t }: FeatureFnParams): void {

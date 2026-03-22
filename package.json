@@ -1,7 +1,7 @@
 {
-  "name": "owo-hunting-bot",
-  "version": "1.0.0",
-  "description": "Community Discord OwO Hunting Bot [Copyright © Lawerth 2026]",
+  "name": "owo-grinder",
+  "version": "1.0.1",
+  "description": "Discord OwO Bot Grinder Tool",
   "main": "index.ts",
   "type": "module",
   "engines": {
@@ -13,33 +13,35 @@
     "setup": "npm install",
     "start": "npx tsx index.ts",
     "start:js": "node dest/index.js",
-    "dev": "cross-env NODE_ENV=development npx tsx ."
+    "dev": "cross-env NODE_ENV=development npx tsx .",
+    "dev:js": "cross-env NODE_ENV=development node dest/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lawerth/owo-farming-bot.git"
+    "url": "git+https://github.com/lawerth/OwO-Grinder.git"
   },
   "keywords": [
+    "discord-owo-farmbot",
     "discord-owo-selfbot",
     "discord-owo-tool",
     "owo-auto-farm",
     "owo-tool-farm",
     "owo-selfbot",
-    "owo-farming-bot"
+    "owo-farming",
+    "owo-grinder"
   ],
   "author": {
     "name": "Lawerth",
     "email": "lawerth@proton.me"
   },
-  "license": "MIT",
+  "license": "CC-BY-NC-4.0",
   "bugs": {
-    "url": "https://github.com/lawerth/owo-farming-bot/issues"
+    "url": "https://github.com/lawerth/OwO-Grinder/issues"
   },
-  "homepage": "https://github.com/lawerth/owo-farming-bot#readme",
+  "homepage": "https://github.com/lawerth/OwO-Grinder#readme",
   "dependencies": {
     "@inquirer/core": "^10.1.14",
     "@inquirer/prompts": "^7.6.0",
-    "2captcha": "^3.0.5-2",
     "adm-zip": "^0.5.16",
     "axios": "^1.10.0",
     "axios-cookiejar-support": "^6.0.3",
@@ -48,6 +50,7 @@
     "cross-env": "^7.0.3",
     "debug": "^4.4.1",
     "discord.js-selfbot-v13": "^3.7.0",
+    "dotenv": "^17.3.1",
     "lodash": "^4.17.21",
     "node-fetch": "^3.3.2",
     "node-notifier": "^10.0.1",

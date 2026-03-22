@@ -1,8 +1,6 @@
 import { Message } from "discord.js-selfbot-v13";
-
 import { Schematic } from "@/structure/Schematic.js";
 import { logger } from "@/utils/logger.js";
-
 import { FeatureFnParams } from "@/typings/index.js";
 import { ranInt } from "@/utils/math.js";
 

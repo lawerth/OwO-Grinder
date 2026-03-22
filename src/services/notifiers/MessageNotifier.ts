@@ -11,12 +11,13 @@ export class MessageNotifier implements NotifierStrategy {
         }
 
         try {
-            const { title, description, urgency, sourceUrl, imageUrl, content, fields } = payload;
+            const { title, description, urgency, sourceUrl, imageUrl, content, fields, author } = payload;
 
             const admin = await agent.client.users.fetch(agent.config.adminID);
             const dms = await admin.createDM();
 
             let messageContent = `# Advanced Discord OwO Tool Farm Notification`
+            if (author) messageContent += `\n**User:** ${author.name}`
             messageContent += `\n\n**Title:** ${title}\n\n`;
             messageContent += `**Urgency:** ${urgency}\n`;
             messageContent += `**Content:** ${content}\n`;

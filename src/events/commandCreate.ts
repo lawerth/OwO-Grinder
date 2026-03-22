@@ -8,12 +8,22 @@ export default Schematic.registerEvent({
 	handler: async (BaseParams, message) => {
 		const { agent, t, locale } = BaseParams;
 		if (message.author.bot) return;
-		if (!agent.config.prefix || !message.content.startsWith(agent.config.prefix)) return;
+		const prefix = agent.config.prefix;
+		if (!prefix) return;
+
+		let usedPrefix: string | undefined;
+		if (Array.isArray(prefix)) {
+			usedPrefix = prefix.find(p => message.content.startsWith(p));
+		} else if (message.content.startsWith(prefix)) {
+			usedPrefix = prefix;
+		}
+
+		if (!usedPrefix) return;
 
 		if (!agent.authorizedUserIDs.includes(message.author.id)) return;
 
 		const args = message.content
-			.slice(agent.config.prefix.length)
+			.slice(usedPrefix.length)
 			.trim()
 			.split(/ +/g);
 

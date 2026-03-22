@@ -11,7 +11,7 @@ export default Schematic.registerFeature({
         return true;
     },
     run: async ({ agent, t }) => {
-        // **⚙️ | Konbanwa**, the current prefix is set to **`o`**!
+        // **⚙️ | Username**, the current prefix is set to **`o`**!
         const response = await agent.awaitResponse({
             trigger: () => agent.send("prefix"),
             filter: (m) => m.author.id === agent.owoID

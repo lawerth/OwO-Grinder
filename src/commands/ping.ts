@@ -1,6 +1,5 @@
 import { Schematic } from "@/structure/Schematic.js";
 
-
 export default Schematic.registerCommand({
     name: "ping",
     description: "commands.ping.description",

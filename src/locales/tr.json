@@ -3,6 +3,21 @@
         "autoClover": {
             "executed": "Clover başarıyla kullanıldı!"
         },
+        "autoArmy": {
+            "dailyLimitReached": "Günlük ordu limitine ulaşıldı. autoArmy özelliği devre dışı bırakıldı."
+        },
+        "autoBuy": {
+            "items": {
+                "1": "Common Ring",
+                "2": "Uncommon Ring",
+                "3": "Rare Ring",
+                "4": "Epic Ring",
+                "5": "Mythical Ring",
+                "6": "Legendary Ring",
+                "7": "Fabled Ring"
+            },
+            "notEnoughCowoncy": "{item} satın almak için yeterli cowoncy yok. ID autoBuy listesinden kaldırıldı."
+        },
         "autoHunt": {
             "noGems": "Envanterde kullanılabilir avcılık mücevheri bulunamadı, autoGem özelliği devre dışı bırakılıyor.",
             "gemsFound": "Envanterde {count} türde kullanılabilir avcılık mücevheri bulundu."
@@ -17,7 +32,7 @@
             "huntbotSent": "Huntbot gönderildi, tahmini süre: {hours} saat, {minutes} dakika.",
             "inHunting": "Huntbot hala avlanıyor, kalan tahmini süre: {hours} saat, {minutes} dakika.",
             "errors": {
-                "noCaptchaAPI": "Captcha API'si yapılandırılmamış, Huntbot için ADOTF'nin API'sini kullanmaya zorlanıyor.",
+                "noCaptchaAPI": "Captcha API'si yapılandırılmamış, Huntbot için kendi API'mızı kullanmaya zorlanıyor.",
                 "invalidCaptchaResult": "Geçersiz captcha sonucu ({result}). 5 harf karakteri bekleniyor."
             }
         },
@@ -40,6 +55,11 @@
         "autoPray": {
             "adminNotFound": "Sunucuda admin bulunamadı, komut autoPray listesinden kaldırılıyor."
         },
+        "autoBossFight": {
+            "fightJoined": "Boss savaşına katılındı! Kalan bilet: {remaining}/3",
+            "noTickets": "Boss savaşı tespit edildi ancak bilet kalmadı. Atlanıyor.",
+            "detected": "Boss savaşı tespit edildi! {delay}s sonra katılınıyor..."
+        },
         "common": {
             "errors": {
                 "noAdminID": "{feature} özelliği yapılandırmada adminID'nin ayarlanmasını gerektirir.",
@@ -52,6 +72,13 @@
         "generate": {
             "fileExists": "Dosya {filePath} zaten mevcut. Lütfen farklı bir dosya adı seçin.",
             "configGenerated": "Yapılandırma dosyası {filePath} konumunda oluşturuldu"
+        },
+        "import": {
+            "fileNotFound": "Dosya {filePath} bulunamadı.",
+            "notJSON": "Dosya {filePath} bir JSON dosyası değil!",
+            "importSuccess": "Yapılandırma başarıyla içe aktarıldı",
+            "importError": "Yapılandırma içe aktarılırken hata oluştu:",
+            "startFailed": "İçe aktarılan yapılandırma ile bot başlatılamadı:"
         }
     },
     "agent": {
@@ -61,9 +88,9 @@
             "removedInvalidChannel": "Geçersiz kanal ID'si {channelID} yapılandırmadan kaldırıldı.",
             "configReloaded": "Yapılandırma önbellekten yeniden yüklendi.",
             "noActiveChannel": "Komut gönderilemiyor: Aktif kanal ayarlanmamış.",
-            "owoStatusCheckFailed": "OwO durumu kontrol edilemedi, bot'un çevrimdışı olduğu veya guild'de olmadığı varsayılıyor.",
+            "owoStatusCheckFailed": "OwO durumu kontrol edilemedi, bot'un çevrim dışı olduğu veya guild'de olmadığı varsayılıyor.",
             "noFeaturesAvailable": "Çalıştırılacak özellik yok. Özelliklerin doğru şekilde yüklendiğinden emin olun.",
-            "owoOfflineDetected": "OwO bot çevrimdışı durumu tespit edildi, tüm await'lerde yanıt bekleniyor.",
+            "owoOfflineDetected": "OwO bot çevrim dışı durumu tespit edildi, tüm await'lerde yanıt bekleniyor.",
             "featureNotFound": "Özellik {featureKey} özellik koleksiyonunda bulunamadı.",
             "featuresRegistered": "{count} özellik kaydedildi.",
             "commandsRegistered": "{count} komut kaydedildi.",
@@ -99,6 +126,9 @@
         }
     },
     "ui": {
+        "autoBuy": {
+            "selectItems": "Otomatik alınacak eşyaları seçin (seçmek için boşluk tuşu): "
+        },
         "accounts": {
             "selectAccount": "Bir hesap seçin: ",
             "loginNewToken": "Yeni token ile giriş yap",
@@ -130,12 +160,18 @@
             "call": "Arama (Sadece Arkadaşlar)",
             "music": "Müzik",
             "popup": "[BETA] Popup Bildirimi",
+            "ntfy": "ntfy.sh",
             "description": "Bildirimleri nasıl almak istediğinizi seçin. Birden fazla seçenek seçebilirsiniz. 'Arama' ve 'DM'lerin selfbot'un arkadaşı olmanızı gerektirdiğini unutmayın."
         },
         "webhookURL": {
             "enterURL": "Discord webhook URL'nizi girin: ",
             "invalidFormat": "Geçersiz webhook URL formatı.",
             "notAccessible": "Webhook URL'si erişilebilir değil."
+        },
+        "ntfyChannel": {
+            "enterChannel": "ntfy.sh kanal adınızı girin: ",
+            "invalidFormat": "Geçersiz kanal adı formatı.",
+            "notAccessible": "ntfy.sh kanalı erişilebilir değil."
         },
         "adminID": {
             "enterUserID": "Şunları yapmak istediğiniz kullanıcı ID'sini girin:\n + Selfbot komutlarını kullanma (prefix ayarlanmışsa)\n + Cookie alma (autoCookie etkinse)\n + Clover alma (autoClover etkinse)\n + Captcha tespit edildiğinde bildirim alma\nKullanıcı ID'sini girin{required}: ",
@@ -158,8 +194,8 @@
         "captchaAPI": {
             "selectProvider": "Captcha çözme sağlayıcısını seçin (Selfbot 2 kez deneyecek): ",
             "skip": "Atla",
-            "adotfAPI": "ADOTF API'mizı (yakında geliyor)",
-            "adotfDescription": "ADOTF: Advanced Discord Owo Tool Farm, şu anda sadece Huntbot captcha'larını destekliyor",
+            "ourHuntbotAPI": "Huntbot API'mizı (yakında geliyor)",
+            "ourHuntbotDescription": "Huntbot: Advanced Discord Owo Tool Farm, şu anda sadece Huntbot captcha'larını destekliyor",
             "notImplemented": "Bu özellik henüz uygulanmadı."
         },
         "captchaAPIKey": {
@@ -200,7 +236,7 @@
             "providedAPI": "Sağlanan Captcha API: {api}",
             "noAPI": "Yok",
             "noAPIDisabled": "Captcha API sağlayıcısı ayarlamadınız",
-            "adotfAPI": "ADOTF API'mizı (şu anda ücretsiz ve Huntbot captcha'larını destekliyor)"
+            "ourHuntbotAPI": "Huntbot API'mizı (şu anda ücretsiz ve Huntbot captcha'larını destekliyor)"
         },
         "prayCurse": {
             "selectOptions": "Otomatik kullanmak istediğiniz pray/curse'leri seçin (seçmek için boşluk tuşu): ",
@@ -231,7 +267,9 @@
             "autoReload": "Günlük yapılandırma yeniden yüklemeyi aç/kapat",
             "useCustomPrefix": "Sunucu OwO bot prefix'i kullanımını aç/kapat",
             "autoSell": "Para bittiğinde hayvanları otomatik satmayı aç/kapat",
-            "autoResume": "Captcha çözüldükten sonra otomatik devam etmeyi aç/kapat"
+            "autoResume": "Captcha çözüldükten sonra otomatik devam etmeyi aç/kapat",
+            "autoArmy": "Otomatik Army Gönder'i Aç/Kapat (Günde 15 kez)",
+            "autoBossFight": "Otomatik Boss Savaşına Katılmayı Aç/Kapat (Günde 3 bilet)"
         },
         "messages": {
             "checkingAccount": "Hesap kontrol ediliyor...",

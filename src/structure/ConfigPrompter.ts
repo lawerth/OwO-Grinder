@@ -128,6 +128,11 @@ export class ConfigPrompter extends BasePrompter {
                     value: "popup",
                     checked: cache?.includes("popup"),
                 },
+                {
+                    name: t("ui.notifications.ntfy"),
+                    value: "ntfy",
+                    checked: cache?.includes("ntfy"),
+                },
             ],
         }, t("ui.notifications.description"));
 
@@ -144,6 +149,23 @@ export class ConfigPrompter extends BasePrompter {
                     return true;
                 } catch {
                     return t("ui.webhookURL.notAccessible");
+                }
+            },
+        });
+
+    public getNtfyChannel = (cache?: string) =>
+        this.ask(input, {
+            message: t("ui.ntfyChannel.enterChannel"),
+            default: cache,
+            validate: async (channel) => {
+                if (!/^[a-zA-Z0-9-_]{1,64}$/.test(channel)) {
+                    return t("ui.ntfyChannel.invalidFormat");
+                }
+                try {
+                    await axios.get(`https://ntfy.sh/${channel}/json?poll=1`);
+                    return true;
+                } catch (error) {
+                    return t("ui.ntfyChannel.notAccessible");
                 }
             },
         });
@@ -217,16 +239,12 @@ export class ConfigPrompter extends BasePrompter {
                     value: undefined
                 },
                 {
-                    name: `2Captcha [${chalk.underline("https://2captcha.com")}]`,
-                    value: "2captcha"
-                },
-                {
                     name: `YesCaptcha [${chalk.underline("https://yescaptcha.com")}]`,
                     value: "yescaptcha",
                 },
                 {
-                    name: t("ui.captchaAPI.adotfAPI"),
-                    description: t("ui.captchaAPI.adotfDescription"),
+                    name: t("ui.captchaAPI.ourHuntbotAPI"),
+                    description: t("ui.captchaAPI.ourHuntbotDescription"),
                     value: undefined,
                     disabled: t("ui.captchaAPI.notImplemented")
                 }
@@ -241,15 +259,23 @@ export class ConfigPrompter extends BasePrompter {
             default: cache,
         });
 
-    public getPrefix = (cache?: string) =>
-        this.ask(input, {
+    public getPrefix = async (cache?: string | string[]) => {
+        const defaultValue = Array.isArray(cache) ? cache.join(", ") : cache;
+        const answer = await this.ask(input, {
             message: t("ui.prefix.enterPrefix"),
             validate: (answer: string) => {
                 if (!answer) return true;
-                return /^[^0-9\s]{1,5}$/.test(answer) ? true : t("ui.prefix.invalidPrefix");
+                const prefixes = answer.split(/[,\s]+/).filter(Boolean);
+                if (prefixes.length === 0) return true;
+                return prefixes.every(p => /^[^0-9\s]{1,5}$/.test(p)) ? true : t("ui.prefix.invalidPrefix");
             },
-            default: cache
+            default: defaultValue,
         });
+
+        if (!answer) return "";
+        const prefixes = answer.split(/[,\s]+/).filter(Boolean);
+        return prefixes.length > 1 ? prefixes : (prefixes[0] || "");
+    }
 
     public getGemUsage = (cache?: number) =>
         this.ask(select<Configuration["autoGem"]>, {
@@ -356,7 +382,7 @@ export class ConfigPrompter extends BasePrompter {
                     disabled: !this.config.captchaAPI && t("ui.huntbotSolver.noAPIDisabled"),
                 },
                 {
-                    name: t("ui.huntbotSolver.adotfAPI"),
+                    name: t("ui.huntbotSolver.ourHuntbotAPI"),
                     value: true,
                 }
             ],
@@ -429,5 +455,19 @@ export class ConfigPrompter extends BasePrompter {
                     checked: cache?.includes("piku")
                 }
             ]
+        });
+    
+    public getAutoBuy = (cache?: number[]) =>
+        this.ask(checkbox<number>, {
+            message: t("ui.autoBuy.selectItems"),
+            choices: [
+                { name: "1 (Common Ring)", value: 1, checked: cache?.includes(1) },
+                { name: "2 (Uncommon Ring)", value: 2, checked: cache?.includes(2) },
+                { name: "3 (Rare Ring)", value: 3, checked: cache?.includes(3) },
+                { name: "4 (Epic Ring)", value: 4, checked: cache?.includes(4) },
+                { name: "5 (Mythical Ring)", value: 5, checked: cache?.includes(5) },
+                { name: "6 (Legendary Ring)", value: 6, checked: cache?.includes(6) },
+                { name: "7 (Fabled Ring)", value: 7, checked: cache?.includes(7) },
+            ],
         });
 }

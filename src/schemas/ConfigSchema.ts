@@ -14,13 +14,15 @@ export const ConfigSchema = z.object({
         "dms",
         "call",
         "music",
-        "popup"
+        "popup",
+        "ntfy"
     ])).default([]),
     webhookURL: z.url().optional(),
+    ntfyChannel: z.string().optional(),
     adminID: z.string().optional(),
     musicPath: z.string().optional(),
-    prefix: z.string().optional(),
-    captchaAPI: z.enum(["2captcha", "yescaptcha"]).optional(),
+    prefix: z.union([z.string(), z.array(z.string())]).optional(),
+    captchaAPI: z.enum(["yescaptcha"]).optional(),
     apiKey: z.string().optional(),
     autoHuntbot: z.boolean().default(true),
     autoTrait: z.enum([
@@ -31,7 +33,7 @@ export const ConfigSchema = z.object({
         "experience",
         "radar"
     ]).optional(),
-    useAdotfAPI: z.boolean().default(true).optional(),
+    useOurHuntbotAPI: z.boolean().default(true).optional(),
     autoPray: z.array(z.string()).default(["pray"]),
     autoGem: z.union([z.literal(0), z.literal(-1), z.literal(1)]).default(0),
     gemTier: z.array(z.enum([
@@ -61,6 +63,9 @@ export const ConfigSchema = z.object({
         "pup",
         "piku"
     ])).default(["run", "pup", "piku"]),
+    autoBuy: z.array(z.number().min(1).max(7)).default([]),
+    autoArmy: z.boolean().default(false),
+    autoBossFight: z.boolean().default(false),
     autoDaily: z.boolean().default(true),
     autoCookie: z.boolean().default(true),
     autoClover: z.boolean().default(true),
@@ -75,6 +80,13 @@ export const ConfigSchema = z.object({
             code: "custom",
             input: value.webhookURL,
             message: "Webhook URL is required when 'webhook' is selected in wayNotify"
+        });
+    }
+    if (value.wayNotify.includes("ntfy") && !value.ntfyChannel) {
+        issues.push({
+            code: "custom",
+            input: value.ntfyChannel,
+            message: "ntfy channel is required when 'ntfy' is selected in wayNotify"
         });
     }
     if ((value.wayNotify.includes("dms") || value.wayNotify.includes("call")) && !value.adminID) {

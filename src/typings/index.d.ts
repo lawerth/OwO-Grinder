@@ -32,17 +32,20 @@ export interface CaptchaSolver {
 }
 
 export interface NotificationPayload {
-    title: string;
+    title?: string;
     description: string;
     urgency: "normal" | "critical";
     sourceUrl?: string; // e.g., the URL to the captcha message
     imageUrl?: string;
     content: string;
     fields?: { name: string; value: string; inline?: boolean }[];
+    author?: { name: string; iconURL?: string; url?: string };
+    footer?: { text: string; iconURL?: string };
+    messageID?: string;
 }
 
 export interface NotifierStrategy {
-    execute(params: FeatureFnParams, payload: NotificationPayload): Promise<void>;
+    execute(params: FeatureFnParams, payload: NotificationPayload): Promise<any>;
 }
 
 type EventOptions<T extends keyof ClientEvents = keyof ClientEvents> = {

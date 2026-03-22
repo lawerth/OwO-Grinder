@@ -52,8 +52,11 @@ export class BaseAgent {
     public lastSleepAt = 0;
 
     public captchaDetected = false;
+    public armyCount = 0;
+    public bossFightTickets = 3;
     public farmLoopRunning = false;
     public farmLoopPaused = false;
+    public lastCaptchaResults?: Map<string, any>;
     private expectResponseOnAllAwaits = false;
 
     constructor(client: ExtendedClient<true>, config: Configuration) {
@@ -111,6 +114,8 @@ export class BaseAgent {
         for (const key of Object.keys(this.cache)) {
             (this.config as any)[key as keyof Configuration] = this.cache[key as keyof Configuration];
         }
+        this.armyCount = 0;
+        this.bossFightTickets = 3;
         logger.info(t("agent.messages.configReloaded"));
     }
 

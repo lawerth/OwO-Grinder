@@ -1,7 +1,22 @@
 {
     "features": {
         "autoClover": {
-            "executed": "Clover used successfully!"
+            "executed": "Clover successfully used!"
+        },
+        "autoArmy": {
+            "dailyLimitReached": "Daily army limit reached. autoArmy feature disabled."
+        },
+        "autoBuy": {
+            "items": {
+                "1": "Common Ring",
+                "2": "Uncommon Ring",
+                "3": "Rare Ring",
+                "4": "Epic Ring",
+                "5": "Mythical Ring",
+                "6": "Legendary Ring",
+                "7": "Fabled Ring"
+            },
+            "notEnoughCowoncy": "Not enough cowoncy to buy {item}. ID removed from autoBuy list."
         },
         "autoHunt": {
             "noGems": "No usable hunting gems found in inventory, disabling autoGem feature.",
@@ -17,7 +32,7 @@
             "huntbotSent": "Huntbot sent, estimated time: {hours} hours, {minutes} minutes.",
             "inHunting": "Huntbot is still hunting, estimated time left: {hours} hours, {minutes} minutes.",
             "errors": {
-                "noCaptchaAPI": "No captcha API configured, force using ADOTF's API for Huntbot.",
+                "noCaptchaAPI": "No captcha API configured, force using our own API for Huntbot.",
                 "invalidCaptchaResult": "Invalid captcha result ({result}). Expected 5 letter characters."
             }
         },
@@ -40,6 +55,11 @@
         "autoPray": {
             "adminNotFound": "Admin not found in the server, removing command from autoPray list."
         },
+        "autoBossFight": {
+            "fightJoined": "Joined boss fight! Remaining tickets: {remaining}/3",
+            "noTickets": "Boss fight detected but no tickets remaining. Skipping.",
+            "detected": "Boss fight detected! Joining in {delay}s..."
+        },
         "common": {
             "errors": {
                 "noAdminID": "{feature} feature requires adminID to be set in config.",
@@ -51,7 +71,14 @@
     "cli": {
         "generate": {
             "fileExists": "File {filePath} already exists. Please choose a different filename.",
-            "configGenerated": "Config file generated at {filePath}"
+            "configGenerated": "Configuration file generated at {filePath}"
+        },
+        "import": {
+            "fileNotFound": "File {filePath} does not exist.",
+            "notJSON": "File {filePath} is not a JSON file!",
+            "importSuccess": "Configuration imported successfully",
+            "importError": "Error importing configuration:",
+            "startFailed": "Failed to start bot with imported configuration:"
         }
     },
     "agent": {
@@ -99,6 +126,9 @@
         }
     },
     "ui": {
+        "autoBuy": {
+            "selectItems": "Select items to automatically buy (spacebar to select): "
+        },
         "accounts": {
             "selectAccount": "Select an account: ",
             "loginNewToken": "Login with a new token",
@@ -130,12 +160,18 @@
             "call": "Call (Friends Only)",
             "music": "Music",
             "popup": "[BETA] Popup Notification",
+            "ntfy": "ntfy.sh",
             "description": "Select how you want to receive notifications. You can select multiple options. Note that 'Call' and 'DMs' require the user to be a friend of the selfbot."
         },
         "webhookURL": {
             "enterURL": "Enter your Discord webhook URL: ",
             "invalidFormat": "Invalid webhook URL format.",
             "notAccessible": "Webhook URL is not accessible."
+        },
+        "ntfyChannel": {
+            "enterChannel": "Enter your ntfy.sh channel name: ",
+            "invalidFormat": "Invalid channel name format.",
+            "notAccessible": "ntfy.sh channel is not accessible."
         },
         "adminID": {
             "enterUserID": "Enter user ID you want to:\n + Use Selfbot commands (if prefix is set)\n + Receive Cookie (if autoCookie is enabled)\n + Receive Clover (if autoClover is enabled)\n + Receive Notifications on captcha detected\nEnter user ID{required}: ",
@@ -158,8 +194,8 @@
         "captchaAPI": {
             "selectProvider": "Select a captcha solving provider (Selfbot will try 2 times): ",
             "skip": "Skip",
-            "adotfAPI": "Our ADOTF's API (coming soon)",
-            "adotfDescription": "ADOTF: Advanced Discord Owo Tool Farm, currently only supports Huntbot captchas",
+            "ourHuntbotAPI": "Our Huntbot API (coming soon)",
+            "ourHuntbotDescription": "Huntbot: Advanced Discord Owo Tool Farm, currently only supports Huntbot captchas",
             "notImplemented": "This feature is not implemented yet."
         },
         "captchaAPIKey": {
@@ -200,7 +236,7 @@
             "providedAPI": "Provided Captcha API: {api}",
             "noAPI": "None",
             "noAPIDisabled": "You did not set a captcha API provider",
-            "adotfAPI": "Our ADOTF's API (currently free and supports Huntbot captchas)"
+            "ourHuntbotAPI": "Our Huntbot API (currently free and supports Huntbot captchas)"
         },
         "prayCurse": {
             "selectOptions": "Select which pray/curses you want to auto use (spacebar to select): ",
@@ -231,7 +267,9 @@
             "autoReload": "Toggle automatically reload config daily",
             "useCustomPrefix": "Toggle using server OwO bot prefix",
             "autoSell": "Toggle automatically sell animals once cash ran out",
-            "autoResume": "Toggle automatically resume after the captcha is solved"
+            "autoResume": "Toggle automatically resume after the captcha is solved",
+            "autoArmy": "Toggle Automatically Send Army (15 times daily)",
+            "autoBossFight": "Toggle Automatically Join Boss Fights (3 tickets daily)"
         },
         "messages": {
             "checkingAccount": "Checking account...",
