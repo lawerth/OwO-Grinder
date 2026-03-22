@@ -14,8 +14,8 @@ Best selfbot for Discord OwO Bot currently with alot of cool features like captc
 # 🔎 Requirements
 
 - **Node.js Version:** v22.11.0 and above
-- **For Laptop and PC:** Windows 10/11 or higher, Linux and MacOS
-- **For Android:** Download and install [Termux](https://f-droid.org/en/packages/com.termux/)
+- **For Laptop and PC:** Windows 10/11 or higher, Linux
+- **For Android:** Download [Termux](https://f-droid.org/en/packages/com.termux/)
 
 ---
 
