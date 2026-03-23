@@ -131,6 +131,9 @@
         },
         "accounts": {
             "selectAccount": "Select an account: ",
+            "selectMultiple": "Select accounts to run (spacebar to select): ",
+            "runAllAccounts": "Run All Saved Accounts",
+            "runSelectedAccounts": "Run Selected Accounts",
             "loginNewToken": "Login with a new token",
             "loginQR": "Login with QR code"
         },

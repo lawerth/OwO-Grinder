@@ -64,6 +64,17 @@ if (!argv._.length) {
         await client.sleep(1000); // Wait for update to complete
     }
 
-    const { config } = await InquirerUI.prompt(client);
-    await BaseAgent.initialize(client, config);
+    const configs = await InquirerUI.prompt(client);
+    client.destroy();
+
+    for (const config of configs) {
+        try {
+            const runClient = new ExtendedClient();
+            await runClient.checkAccount(config.token);
+            await BaseAgent.initialize(runClient, config);
+        } catch (error) {
+            logger.error(`Failed to initialize account for ${config.username || "Unknown"}:`);
+            logger.error(error as Error);
+        }
+    }
 }

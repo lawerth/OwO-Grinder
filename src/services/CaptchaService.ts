@@ -209,7 +209,7 @@ export class CaptchaService {
             currentResults = await notificationService.notify(params, {
                 description: `${dotEmoji} **Status:** ⏳ Detecting / Solving...\n${dotEmoji} **Captcha Type:** ${attachmentUrl ? `[Image Captcha](${attachmentUrl})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Attempt:** ${retries + 1}/${maxRetries + 1}`,
                 urgency: "normal",
-                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED](${message.url}) ${agent.client.user?.username}`,
+                content: `⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}**[CAPTCHA DETECTED](${message.url}): ${agent.client.user?.username}**`,
                 author: {
                     name: agent.client.user?.tag ?? "Unknown User",
                     iconURL: agent.client.user?.displayAvatarURL(),
@@ -224,7 +224,7 @@ export class CaptchaService {
                 messageID: webhookID,
                 description: `${dotEmoji} **Status:** ⏳ Retrying / Solving...\n${dotEmoji} **Captcha Type:** ${attachmentUrl ? `[Image Captcha](${attachmentUrl})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Attempt:** ${retries + 1}/${maxRetries + 1}`,
                 urgency: "normal",
-                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED](${message.url}) ${agent.client.user?.username}`,
+                content: `⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}**[CAPTCHA DETECTED](${message.url}): ${agent.client.user?.username}**`,
                 author: {
                     name: agent.client.user?.tag ?? "Unknown User",
                     iconURL: agent.client.user?.displayAvatarURL(),
@@ -237,6 +237,27 @@ export class CaptchaService {
 
         // Update webhookID again if it was just created (retries === 0)
         const activeWebhookID = currentResults?.get("webhook") || webhookID;
+
+        if (!agent.config.captchaAPI || !agent.config.apiKey) {
+            logger.warn("Captcha API or API key not configured. Waiting for manual resolution.");
+            logger.info(`WAITING FOR THE CAPTCHA TO BE RESOLVED TO ${agent.config.autoResume ? "RESTART" : "STOP"}...`);
+
+            agent.totalCaptchaFailed++;
+            currentResults = await notificationService.notify(params, {
+                messageID: activeWebhookID,
+                description: `${dotEmoji} **Status:** ❌ Unresolved (Manual Action Required)\n${dotEmoji} **Captcha Type:** ${attachmentUrl ? `[Image Captcha](${attachmentUrl})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Reason:** Captcha API not configured.\n\n-# The 10-minute countdown will end in <t:${Math.floor(message.createdTimestamp / 1000 + 600)}:R>.`,
+                urgency: "critical",
+                content: `❌ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}**[CAPTCHA DETECTED:](${message.url}): ${agent.client.user?.username}**`,
+                author: {
+                    name: agent.client.user?.tag ?? "Unknown User",
+                    iconURL: agent.client.user?.displayAvatarURL(),
+                },
+                sourceUrl: message.url,
+                imageUrl: attachmentUrl,
+            });
+            agent.lastCaptchaResults = currentResults;
+            return;
+        }
 
         try {
             if (attachmentUrl) {
@@ -281,7 +302,7 @@ export class CaptchaService {
                 messageID: activeWebhookID,
                 description: `${dotEmoji} **Status:** ✅ Resolved\n${dotEmoji} **Captcha Type:** ${attachmentUrl ? `[Image Captcha](${attachmentUrl})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Attempt:** ${retries + 1}/${maxRetries + 1}`,
                 urgency: "normal",
-                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED](${message.url}) ${agent.client.user?.username}`,
+                content: `✅ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}**[CAPTCHA DETECTED](${message.url}): ${agent.client.user?.username}**`,
                 author: {
                     name: agent.client.user?.tag ?? "Unknown User",
                     iconURL: agent.client.user?.displayAvatarURL(),
@@ -311,7 +332,7 @@ export class CaptchaService {
                 messageID: activeWebhookID,
                 description: `${dotEmoji} **Status:** ❌ Unresolved\n${dotEmoji} **Captcha Type:** ${message.attachments.first() ? `[Image Captcha](${message.attachments.first()?.url})` : "[Link Captcha](https://owobot.com/captcha)"}\n${dotEmoji} **Failed Attempts:** ${maxRetries + 1}/${maxRetries + 1}\n${dotEmoji} **Last Error:** \`${error instanceof Error ? error.message : String(error)}\`\n\n-# The 10-minute countdown will end in <t:${Math.floor(message.createdTimestamp / 1000 + 600)}:R>.`,
                 urgency: "critical",
-                content: `### ⚠️ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}[CAPTCHA DETECTED:](${message.url}) ${agent.client.user?.username}`,
+                content: `❌ ${agent.config.adminID ? `<@${agent.config.adminID}> ` : ""}**[CAPTCHA DETECTED:](${message.url}): ${agent.client.user?.username}**`,
                 author: {
                     name: agent.client.user?.tag ?? "Unknown User",
                     iconURL: agent.client.user?.displayAvatarURL(),

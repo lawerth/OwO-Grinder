@@ -28,7 +28,7 @@ export class DataManager {
     private readonly filePath: string;
 
     constructor(
-        filePath = path.join(process.cwd(), "config.json") // Default path to project root
+        filePath = path.join(process.cwd(), "config/data.json") // Default path to project root
     ) {
         this.filePath = filePath;
         this.ensureFileExists();

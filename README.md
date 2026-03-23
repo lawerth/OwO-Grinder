@@ -58,7 +58,7 @@ npm start [command] [options]
 npm start -- -- [options]
 
 # Example
-npm start generate config-sample.json # generate config-sample.json
+npm start generate config.json # generate config-sample.json
 npm start import config.json # Trigger auto import and run with given config.json
 
 # CLI Options
@@ -71,7 +71,7 @@ npm start import config.json # Trigger auto import and run with given config.jso
 
 # ⚙️ Configuration Guide
 
-**Generate sample config**: Use `npm start generate config-sample.json` to create a template
+**Generate sample config**: Use `npm start generate config.json` to create a template
 
 ```js
 {

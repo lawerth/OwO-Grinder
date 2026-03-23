@@ -38,10 +38,10 @@ const solvePassword = async (attachmentUrl: string, options: SolvePasswordOption
     const { agent } = options;
 
     const installedApps = await agent.client.authorizedApplications();
-    if (!installedApps.some(app => app.application.id === agent.miraiID)) await agent.client.installUserApps(agent.miraiID);
+    if (!installedApps.some(app => app.application.id === agent.CaptchaSolverID)) await agent.client.installUserApps(agent.CaptchaSolverID);
 
     const passwordMsg = await agent.awaitSlashResponse({
-        bot: agent.miraiID,
+        bot: agent.CaptchaSolverID,
         command: "solve huntbot",
         args: [undefined, attachmentUrl],
     })

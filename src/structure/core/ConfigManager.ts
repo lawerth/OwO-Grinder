@@ -1,4 +1,5 @@
 import { ConfigSchema, Configuration } from "@/schemas/ConfigSchema.js";
+import path from "node:path";
 
 import { DataManager } from "./DataManager.js";
 
@@ -21,21 +22,61 @@ import { DataManager } from "./DataManager.js";
  * @public
  */
 export class ConfigManager {
-    private dataManager = new DataManager();
+    private dataManager = new DataManager(path.join(process.cwd(), "config/data.json"));
+    private globalDataManager = new DataManager(path.join(process.cwd(), "config/global_data.json"));
     private configs: Record<string, Configuration> = {};
+    private globalConfig: Partial<Configuration> = {};
 
     constructor() {
         this.loadAll();
     }
 
     private loadAll = () => {
+        const globalData = this.globalDataManager.read() as Partial<Configuration>;
+        this.globalConfig = globalData || {};
+
         const data = this.dataManager.read();
+        let existingConfigCount = Object.keys(data).length;
+
         for (const key in data) {
-            const result = ConfigSchema.safeParse(data[key]);
+            const mergedConfig = { ...this.globalConfig, ...(data[key] as Record<string, unknown>) };
+            const result = ConfigSchema.safeParse(mergedConfig);
             if (result.success) {
-                this.configs[key] = result.data;
+                this.configs[key] = result.data as Configuration;
             }
         }
+
+        if (Object.keys(this.globalConfig).length === 0 && existingConfigCount > 0) {
+            this.migrateToGlobal();
+        }
+    }
+
+    private migrateToGlobal = () => {
+        const keys = Object.keys(this.configs);
+        if (keys.length === 0) return;
+
+        const firstConfig = this.configs[keys[0]] as Record<string, any>;
+        const commonKeys: Record<string, any> = {};
+
+        for (const prop in firstConfig) {
+            if (prop === "token" || prop === "username" || prop === "channelID") continue;
+
+            let isCommon = true;
+            for (const key of keys) {
+                const conf = this.configs[key] as Record<string, any>;
+                if (JSON.stringify(conf[prop]) !== JSON.stringify(firstConfig[prop])) {
+                    isCommon = false;
+                    break;
+                }
+            }
+            if (isCommon) {
+                commonKeys[prop] = firstConfig[prop];
+            }
+        }
+
+        this.globalConfig = commonKeys;
+        this.globalDataManager.write(this.globalConfig);
+        this.saveAll();
     }
 
     public getAllKeys = (): string[] => {
@@ -51,7 +92,7 @@ export class ConfigManager {
         if (!result.success) {
             throw new Error(`Invalid configuration for key "${key}": ${result.error.message}`);
         }
-        this.configs[key] = result.data;
+        this.configs[key] = result.data as Configuration;
         this.saveAll();
     }
 
@@ -65,6 +106,22 @@ export class ConfigManager {
     }
 
     private saveAll = (): void => {
-        this.dataManager.write(this.configs);
+        const toSave: Record<string, Partial<Configuration>> = {};
+        
+        for (const key in this.configs) {
+            const specificConfig = { ...this.configs[key] } as Record<string, any>;
+            const global = this.globalConfig as Record<string, any>;
+            
+            for (const prop in specificConfig) {
+                if (prop === "token" || prop === "username" || prop === "channelID") continue;
+                
+                if (JSON.stringify(specificConfig[prop]) === JSON.stringify(global[prop])) {
+                    delete specificConfig[prop];
+                }
+            }
+            toSave[key] = specificConfig as Partial<Configuration>;
+        }
+        
+        this.dataManager.write(toSave);
     }
 }

@@ -126,7 +126,7 @@ export class InquirerUI {
         );
     }
 
-    static prompt = async (client: ExtendedClient<true>) => {
+    static prompt = async (client: ExtendedClient<true>): Promise<Configuration[]> => {
         this.client = client;
         this.configPrompter = new ConfigPrompter({ client, getConfig: () => this.config });
 
@@ -136,6 +136,21 @@ export class InquirerUI {
         }));
 
         let accountSelection = await this.configPrompter.listAccounts(accountList);
+        
+        if (accountSelection === "run_selected") {
+            const selectedIds = await this.configPrompter.selectMultipleAccounts(accountList);
+            return selectedIds.map(k => this.configManager.get(k)!);
+        }
+
+        if (accountSelection === "run_all") {
+            const keys = this.configManager.getAllKeys();
+            if (keys.length === 0) {
+                logger.error(t("ui.actions.noExistingConfig"));
+                process.exit(-1);
+            }
+            return keys.map(k => this.configManager.get(k)!);
+        }
+
         switch (accountSelection) {
             case "qr":
                 break;
@@ -185,9 +200,6 @@ export class InquirerUI {
         }
 
         this.configManager.set(client.user.id, this.config as Configuration);
-        return {
-            client: this.client,
-            config: this.config as Configuration,
-        }
+        return [this.config as Configuration];
     }
 }

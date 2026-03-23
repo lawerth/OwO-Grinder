@@ -131,6 +131,9 @@
         },
         "accounts": {
             "selectAccount": "Bir hesap seçin: ",
+            "selectMultiple": "Çalıştırmak istediğiniz hesapları seçin (seçmek için boşluk tuşu): ",
+            "runAllAccounts": "Kayıtlı Tüm Hesapları Çalıştır",
+            "runSelectedAccounts": "Seçilen Hesapları Çalıştır",
             "loginNewToken": "Yeni token ile giriş yap",
             "loginQR": "QR kodu ile giriş yap"
         },

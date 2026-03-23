@@ -35,10 +35,15 @@ export class ConfigPrompter extends BasePrompter {
         return this.getConfig();
     }
 
-    public listAccounts = (accounts: { username: string, id: string }[]): Promise<"qr" | "token" | string> =>
-        this.ask(select<"qr" | "token" | string>, {
+    public listAccounts = (accounts: { username: string, id: string }[]): Promise<"run_all" | "run_selected" | "qr" | "token" | string> =>
+        this.ask(select<"run_all" | "run_selected" | "qr" | "token" | string>, {
             message: t("ui.accounts.selectAccount"),
             choices: [
+                ...(accounts.length > 0 ? [
+                    { name: t("ui.accounts.runAllAccounts"), value: "run_all" as const },
+                    { name: t("ui.accounts.runSelectedAccounts"), value: "run_selected" as const },
+                    new Separator(),
+                ] : []),
                 ...accounts.map(account => ({
                     name: account.username,
                     value: account.id
@@ -55,6 +60,16 @@ export class ConfigPrompter extends BasePrompter {
             validate: (input) => input.split(".").length === 3 || t("ui.token.invalidFormat"),
             transformer: (input) => input.replace(/"|'/g, "").trim(),
         })
+
+    public selectMultipleAccounts = (accounts: { username: string, id: string }[]): Promise<string[]> =>
+        this.ask(checkbox<string>, {
+            message: t("ui.accounts.selectMultiple"),
+            choices: accounts.map(account => ({
+                name: account.username,
+                value: account.id
+            })),
+            validate: (choices) => choices.length > 0 || t("ui.channels.mustSelectOne"),
+        });
 
     public listActions = (hasCache: boolean): Promise<"run" | "edit" | "export" | "delete"> =>
         this.ask(select<"run" | "edit" | "export" | "delete">, {

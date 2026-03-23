@@ -30,7 +30,7 @@ export class ExtendedClient<Ready extends boolean = boolean> extends Client<Read
         const command = message.startsWith(prefix) ? message : `${prefix} ${message}`;
 
         channel.send(command);
-        if (!skipLogging) logger.sent(command)
+        if (!skipLogging) logger.sent(`[${this.user?.username || "Unknown"}] ${command}`)
     }
 
     public checkAccount = (token?: string) => {
