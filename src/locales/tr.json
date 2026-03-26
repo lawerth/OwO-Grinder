@@ -69,10 +69,6 @@
         }
     },
     "cli": {
-        "generate": {
-            "fileExists": "Dosya {filePath} zaten mevcut. Lütfen farklı bir dosya adı seçin.",
-            "configGenerated": "Yapılandırma dosyası {filePath} konumunda oluşturuldu"
-        },
         "import": {
             "fileNotFound": "Dosya {filePath} bulunamadı.",
             "notJSON": "Dosya {filePath} bir JSON dosyası değil!",
@@ -126,161 +122,17 @@
         }
     },
     "ui": {
-        "autoBuy": {
-            "selectItems": "Otomatik alınacak eşyaları seçin (seçmek için boşluk tuşu): "
-        },
         "accounts": {
             "selectAccount": "Bir hesap seçin: ",
             "selectMultiple": "Çalıştırmak istediğiniz hesapları seçin (seçmek için boşluk tuşu): ",
             "runAllAccounts": "Kayıtlı Tüm Hesapları Çalıştır",
-            "runSelectedAccounts": "Seçilen Hesapları Çalıştır",
-            "loginNewToken": "Yeni token ile giriş yap",
-            "loginQR": "QR kodu ile giriş yap"
-        },
-        "actions": {
-            "selectAction": "Bir işlem seçin: ",
-            "run": "Çalıştır",
-            "editConfig": "Yapılandırma Düzenle",
-            "exportConfig": "Yapılandırma Dışa Aktar",
-            "deleteConfig": "Yapılandırma Sil",
-            "noExistingConfig": "Mevcut yapılandırma bulunamadı"
-        },
-        "token": {
-            "enterToken": "Discord token'ınızı girin:",
-            "invalidFormat": "Geçersiz token formatı"
-        },
-        "guild": {
-            "selectGuild": "Farm yapılacak sunucuyu seçin: "
+            "runSelectedAccounts": "Seçilen Hesapları Çalıştır"
         },
         "channels": {
-            "selectChannels": "Farm yapılacak kanalları seçin (seçmek için boşluk tuşu): ",
             "mustSelectOne": "En az bir kanal seçmelisiniz."
         },
-        "notifications": {
-            "selectWays": "Bildirim gönderme yöntemlerini seçin (örn. captcha tespit edildiğinde): ",
-            "webhook": "Webhook",
-            "dms": "Direkt Mesaj (Sadece Arkadaşlar)",
-            "call": "Arama (Sadece Arkadaşlar)",
-            "music": "Müzik",
-            "popup": "[BETA] Popup Bildirimi",
-            "ntfy": "ntfy.sh",
-            "description": "Bildirimleri nasıl almak istediğinizi seçin. Birden fazla seçenek seçebilirsiniz. 'Arama' ve 'DM'lerin selfbot'un arkadaşı olmanızı gerektirdiğini unutmayın."
-        },
-        "webhookURL": {
-            "enterURL": "Discord webhook URL'nizi girin: ",
-            "invalidFormat": "Geçersiz webhook URL formatı.",
-            "notAccessible": "Webhook URL'si erişilebilir değil."
-        },
-        "ntfyChannel": {
-            "enterChannel": "ntfy.sh kanal adınızı girin: ",
-            "invalidFormat": "Geçersiz kanal adı formatı.",
-            "notAccessible": "ntfy.sh kanalı erişilebilir değil."
-        },
-        "adminID": {
-            "enterUserID": "Şunları yapmak istediğiniz kullanıcı ID'sini girin:\n + Selfbot komutlarını kullanma (prefix ayarlanmışsa)\n + Cookie alma (autoCookie etkinse)\n + Clover alma (autoClover etkinse)\n + Captcha tespit edildiğinde bildirim alma\nKullanıcı ID'sini girin{required}: ",
-            "emptyToSkip": ", atlamak için boş bırakın",
-            "invalidFormat": "Geçersiz kullanıcı ID formatı.",
-            "cannotSetSelf": "Cookie/Clover/Bildirim (DM/Arama) almak için kendinizi ayarlayamazsınız.",
-            "notMember": "Kullanıcı seçilen sunucunun üyesi değil.",
-            "userNotFound": "Kullanıcı bulunamadı.",
-            "friendRequestSent": "Arkadaşlık isteği gönderildi. Devam etmek için Selfbot'un arkadaşlık isteğini kabul edin.",
-            "friendRequestFailed": "Arkadaşlık isteği gönderilemedi. Lütfen manuel olarak yapın veya gizlilik ayarlarınızı kontrol edip tekrar deneyin.",
-            "acceptFriendRequest": "Devam etmek için lütfen Selfbot'un arkadaşlık isteğini kabul edin.",
-            "friendRequestAcceptFailed": "Arkadaşlık isteği kabul edilemedi. Lütfen manuel olarak yapın.",
-            "blocked": "Siz veya kullanıcı birbirinizi engellemiş. Devam etmek için engeli kaldırın."
-        },
-        "musicPath": {
-            "enterPath": "Ses dosyanızın tam yolunu girin (örn: C:\\sounds\\alert.mp3): ",
-            "fileNotExist": "Dosya mevcut değil.",
-            "invalidFormat": "Geçersiz dosya formatı. Desteklenen formatlar: mp3, wav, ogg, flac, aac, wma"
-        },
-        "captchaAPI": {
-            "selectProvider": "Captcha çözme sağlayıcısını seçin (Selfbot 2 kez deneyecek): ",
-            "skip": "Atla",
-            "ourHuntbotAPI": "Huntbot API'mizı (yakında geliyor)",
-            "ourHuntbotDescription": "Huntbot: Advanced Discord Owo Tool Farm, şu anda sadece Huntbot captcha'larını destekliyor",
-            "notImplemented": "Bu özellik henüz uygulanmadı."
-        },
-        "captchaAPIKey": {
-            "enterKey": "Captcha çözme hizmeti için API anahtarınızı girin: "
-        },
-        "prefix": {
-            "enterPrefix": "Selfbot komut Prefix'inizi girin, Atlamak için boş bırakın: ",
-            "invalidPrefix": "Geçersiz Prefix"
-        },
-        "gemUsage": {
-            "selectUsage": "Taşları nasıl kullanmak istediğinizi seçin: ",
-            "skip": "Atla (Taş kullanma)",
-            "fabledToCommon": "Fabled -> Common",
-            "commonToFabled": "Common -> Fabled"
-        },
-        "gemTier": {
-            "selectTiers": "Kullanılacak taş seviyelerini seçin (seçmek için boşluk tuşu): ",
-            "mustSelectOne": "En az bir taş seviyesi seçmelisiniz.",
-            "common": "Common",
-            "uncommon": "Uncommon",
-            "rare": "Rare",
-            "epic": "Epic",
-            "mythical": "Mythical",
-            "legendary": "Legendary",
-            "fabled": "Fabled"
-        },
-        "trait": {
-            "selectTrait": "Kullanılacak özelliği seçin: ",
-            "efficiency": "Efficiency",
-            "duration": "Duration",
-            "cost": "Cost",
-            "gain": "Gain",
-            "experience": "Experience",
-            "radar": "Radar"
-        },
-        "huntbotSolver": {
-            "selectSolver": "Huntbot çözücüsünü seçin: ",
-            "providedAPI": "Sağlanan Captcha API: {api}",
-            "noAPI": "Yok",
-            "noAPIDisabled": "Captcha API sağlayıcısı ayarlamadınız",
-            "ourHuntbotAPI": "Huntbot API'mizı (şu anda ücretsiz ve Huntbot captcha'larını destekliyor)"
-        },
-        "prayCurse": {
-            "selectOptions": "Otomatik kullanmak istediğiniz pray/curse'leri seçin (seçmek için boşluk tuşu): ",
-            "praySelf": "Selfbot hesabına pray",
-            "curseSelf": "Selfbot hesabına curse",
-            "prayAdmin": "Bildirim alıcısına pray",
-            "curseAdmin": "Bildirim alıcısına curse"
-        },
-        "quoteAction": {
-            "selectActions": "Otomatik kullanmak istediğiniz quote işlemlerini seçin (seçmek için boşluk tuşu): ",
-            "owo": "OwO",
-            "quote": "Quote"
-        },
-        "rppAction": {
-            "selectActions": "Otomatik kullanmak istediğiniz Run/Pup/Piku işlemlerini seçin (seçmek için boşluk tuşu): ",
-            "run": "Run",
-            "pup": "Pup",
-            "piku": "Piku"
-        },
-        "toggleOptions": {
-            "autoLootbox": "Otomatik Lootbox Kullanımını Aç/Kapat",
-            "autoFabledLootbox": "Otomatik Fabled Lootbox Kullanımını Aç/Kapat",
-            "autoHuntbot": "Otomatik Huntbot Gönder/Al'ı Aç/Kapat",
-            "autoCookie": "Otomatik Cookie Gönder'i Aç/Kapat",
-            "autoClover": "Otomatik Clover Gönder'i Aç/Kapat",
-            "autoDaily": "Günlük ödülleri otomatik talep etmeyi aç/kapat",
-            "autoSleep": "Captcha'dan kaçınmak için rastgele duraklamayı aç/kapat",
-            "autoReload": "Günlük yapılandırma yeniden yüklemeyi aç/kapat",
-            "useCustomPrefix": "Sunucu OwO bot prefix'i kullanımını aç/kapat",
-            "autoSell": "Para bittiğinde hayvanları otomatik satmayı aç/kapat",
-            "autoResume": "Captcha çözüldükten sonra otomatik devam etmeyi aç/kapat",
-            "autoArmy": "Otomatik Army Gönder'i Aç/Kapat (Günde 15 kez)",
-            "autoBossFight": "Otomatik Boss Savaşına Katılmayı Aç/Kapat (Günde 3 bilet)"
-        },
         "messages": {
-            "checkingAccount": "Hesap kontrol ediliyor...",
-            "invalidToken": "Geçersiz token veya QR kodu. Lütfen tekrar deneyin.",
-            "configExported": "Yapılandırma şuraya aktarıldı: {path}",
-            "confirmDelete": "{username} için yapılandırmayı silmek istediğinizden emin misiniz?",
-            "configDeleted": "{username} için yapılandırma silindi.",
-            "deletionCancelled": "Silme iptal edildi."
+            "checkingAccount": "Hesap kontrol ediliyor..."
         }
     },
     "commands": {

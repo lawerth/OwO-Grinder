@@ -92,8 +92,10 @@ Manual configuration is done by editing the files in the `config/` directory.
     "prefix": "!", // Command prefix for selfbot commands
     "captchaAPI": "yescaptcha", // Available options: "yescaptcha"
     "apiKey": "yescaptcha_api_key", // Required if captchaAPI is set
-    "autoHuntbot": true, // Enable/disable huntbot automation
-    "autoTrait": "efficiency", // Options: "efficiency", "duration", "cost", "gain", "experience", "radar"
+    "autoHuntbot": {
+        "enabled": true, // Enable/disable huntbot automation
+        "autoTrait": "efficiency" // Options: "efficiency", "duration", "cost", "gain", "experience", "radar"
+    },
     "autoPray": [ // Auto pray/curse commands.
         "pray", //You can change value "curse"
         "pray user_id_here", // You can target specific users

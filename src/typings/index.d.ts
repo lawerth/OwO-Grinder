@@ -48,7 +48,7 @@ export interface NotifierStrategy {
     execute(params: FeatureFnParams, payload: NotificationPayload): Promise<any>;
 }
 
-type EventOptions<T extends keyof ClientEvents = keyof ClientEvents> = {
+export type EventOptions<T extends keyof ClientEvents = keyof ClientEvents> = {
     name: string;
     event: T;
     once?: boolean;
@@ -56,7 +56,7 @@ type EventOptions<T extends keyof ClientEvents = keyof ClientEvents> = {
     handler: (params: BaseParams, ...args: ClientEvents[T]) => MaybePromise<unknown>;
 }
 
-interface BaseParams {
+export interface BaseParams {
     agent: BaseAgent;
     t: Translationfn;
     locale: Locale;
@@ -70,7 +70,7 @@ export interface CommandParams extends BaseParams {
     }
 }
 
-type CommandOptions<InGuild extends boolean = boolean> = {
+export type CommandOptions<InGuild extends boolean = boolean> = {
     cooldown?: number;
     permissions?: PermissionResolvable;
     guildOnly?: InGuild;
@@ -88,18 +88,18 @@ export interface CommandProps {
     execute: (args: CommandParams) => MaybePromise<unknown>;
 }
 
-interface HandlerParams extends BaseParams { }
+export interface HandlerParams extends BaseParams { }
 
-type HandlerProps = {
+export type HandlerProps = {
     run: (args: HandlerParams) => MaybePromise;
 }
 
-interface FeatureFnParams extends BaseParams {
+export interface FeatureFnParams extends BaseParams {
     // channel: GuildTextBasedChannel;
     // cooldown: Cooldown
 }
 
-type BaseFeatureOptions = {
+export type BaseFeatureOptions = {
     overrideCooldown?: boolean;
     cooldownOnError?: number;
     exclude?: boolean
@@ -113,14 +113,14 @@ export interface FeatureProps {
     run: (args: FeatureFnParams) => MaybePromise<unknown>;
 }
 
-interface SendMessageOptions {
+export interface SendMessageOptions {
     channel: TextBasedChannel
     prefix?: string
     typing?: number
     skipLogging?: boolean
 }
 
-interface AwaitResponseOptions {
+export interface AwaitResponseOptions {
     channel?: GuildTextBasedChannel | TextBasedChannel;
     filter: (message: Message) => boolean;
     trigger: () => MaybePromise<unknown>;
@@ -129,17 +129,11 @@ interface AwaitResponseOptions {
     expectResponse?: boolean; // If true, waits for a response from the bot
 }
 
-interface AwaitSlashResponseOptions {
+export interface AwaitSlashResponseOptions {
     channel?: GuildTextBasedChannel | TextBasedChannel;
     bot: UserResolvable;
     command: string;
     args?: any[];
     time?: number;
     max?: number;
-}
-
-interface CLICommand {
-    command: string;
-    description: string;
-    handler: (args: any) => MaybePromise<unknown>;
 }

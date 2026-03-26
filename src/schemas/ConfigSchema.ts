@@ -24,15 +24,17 @@ export const ConfigSchema = z.object({
     prefix: z.union([z.string(), z.array(z.string())]).optional(),
     captchaAPI: z.enum(["yescaptcha"]).optional(),
     apiKey: z.string().optional(),
-    autoHuntbot: z.boolean().default(true),
-    autoTrait: z.enum([
-        "efficiency",
-        "duration",
-        "cost",
-        "gain",
-        "experience",
-        "radar"
-    ]).optional(),
+    autoHuntbot: z.object({
+        enabled: z.boolean().default(true),
+        autoTrait: z.enum([
+            "efficiency",
+            "duration",
+            "cost",
+            "gain",
+            "experience",
+            "radar"
+        ]).optional(),
+    }).default({ enabled: true }),
     autoPray: z.array(z.string()).default(["pray"]),
     autoGem: z.union([z.literal(0), z.literal(-1), z.literal(1)]).default(0),
     gemTier: z.array(z.enum([

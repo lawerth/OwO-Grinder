@@ -8,7 +8,7 @@ import { ranInt } from "@/utils/math.js";
 import { CaptchaService } from "@/services/CaptchaService.js";
 import { t } from "@/utils/locales.js";
 
-type Trait = Exclude<Configuration["autoTrait"], undefined>;
+type Trait = Exclude<Configuration["autoHuntbot"]["autoTrait"], undefined>;
 
 type SolvePasswordOptions = | FeatureFnParams | {
     provider: Exclude<Configuration["captchaAPI"], undefined>;
@@ -110,7 +110,7 @@ export default Schematic.registerFeature({
     },
     cooldown: () => ranInt(10 * 60 * 1000, 15 * 60 * 1000), // 10 to 15 minutes
     condition: ({ agent }) => {
-        return agent.config.autoHuntbot;
+        return agent.config.autoHuntbot.enabled;
     },
     run: async (options) => {
         const { agent, t } = options;
@@ -160,7 +160,7 @@ export default Schematic.registerFeature({
             return;
         }
 
-        if (agent.config.autoTrait) await upgradeTrait(options, agent.config.autoTrait, fields);
+        if (agent.config.autoHuntbot.autoTrait) await upgradeTrait(options, agent.config.autoHuntbot.autoTrait, fields);
 
         const passwordMsg = await agent.awaitResponse({
             trigger: () => agent.send("huntbot 24h"),

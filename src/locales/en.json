@@ -69,10 +69,6 @@
         }
     },
     "cli": {
-        "generate": {
-            "fileExists": "File {filePath} already exists. Please choose a different filename.",
-            "configGenerated": "Configuration file generated at {filePath}"
-        },
         "import": {
             "fileNotFound": "File {filePath} does not exist.",
             "notJSON": "File {filePath} is not a JSON file!",
@@ -126,161 +122,17 @@
         }
     },
     "ui": {
-        "autoBuy": {
-            "selectItems": "Select items to automatically buy (spacebar to select): "
-        },
         "accounts": {
             "selectAccount": "Select an account: ",
             "selectMultiple": "Select accounts to run (spacebar to select): ",
             "runAllAccounts": "Run All Saved Accounts",
-            "runSelectedAccounts": "Run Selected Accounts",
-            "loginNewToken": "Login with a new token",
-            "loginQR": "Login with QR code"
-        },
-        "actions": {
-            "selectAction": "Select an action: ",
-            "run": "Run",
-            "editConfig": "Edit Config",
-            "exportConfig": "Export Config",
-            "deleteConfig": "Delete Config",
-            "noExistingConfig": "No existing config found"
-        },
-        "token": {
-            "enterToken": "Enter your Discord token:",
-            "invalidFormat": "Invalid token format"
-        },
-        "guild": {
-            "selectGuild": "Select a guild to farm in: "
+            "runSelectedAccounts": "Run Selected Accounts"
         },
         "channels": {
-            "selectChannels": "Select channels to farm in (spacebar to select): ",
             "mustSelectOne": "You must select at least one channel."
         },
-        "notifications": {
-            "selectWays": "Select ways to send notifications (eg. when captcha is detected): ",
-            "webhook": "Webhook",
-            "dms": "Direct Message (Friends Only)",
-            "call": "Call (Friends Only)",
-            "music": "Music",
-            "popup": "[BETA] Popup Notification",
-            "ntfy": "ntfy.sh",
-            "description": "Select how you want to receive notifications. You can select multiple options. Note that 'Call' and 'DMs' require the user to be a friend of the selfbot."
-        },
-        "webhookURL": {
-            "enterURL": "Enter your Discord webhook URL: ",
-            "invalidFormat": "Invalid webhook URL format.",
-            "notAccessible": "Webhook URL is not accessible."
-        },
-        "ntfyChannel": {
-            "enterChannel": "Enter your ntfy.sh channel name: ",
-            "invalidFormat": "Invalid channel name format.",
-            "notAccessible": "ntfy.sh channel is not accessible."
-        },
-        "adminID": {
-            "enterUserID": "Enter user ID you want to:\n + Use Selfbot commands (if prefix is set)\n + Receive Cookie (if autoCookie is enabled)\n + Receive Clover (if autoClover is enabled)\n + Receive Notifications on captcha detected\nEnter user ID{required}: ",
-            "emptyToSkip": ", empty to skip",
-            "invalidFormat": "Invalid user ID format.",
-            "cannotSetSelf": "You cannot set yourself for receiving Cookie/Clover/Notifications (DMs/Call).",
-            "notMember": "User is not a member of the selected guild.",
-            "userNotFound": "User not found.",
-            "friendRequestSent": "Friend request sent. Please accept Selfbot's friend request to continue.",
-            "friendRequestFailed": "Failed to send friend request. Please do it manually or check your privacy settings and try again.",
-            "acceptFriendRequest": "Please accept Selfbot's friend request to continue.",
-            "friendRequestAcceptFailed": "Failed to accept friend request. Please do it manually.",
-            "blocked": "Either you or the user has blocked the other. Please unblock to continue."
-        },
-        "musicPath": {
-            "enterPath": "Enter the full path to your sound file (e.g., C:\\sounds\\alert.mp3): ",
-            "fileNotExist": "File does not exist.",
-            "invalidFormat": "Invalid file format. Supported formats: mp3, wav, ogg, flac, aac, wma"
-        },
-        "captchaAPI": {
-            "selectProvider": "Select a captcha solving provider (Selfbot will try 2 times): ",
-            "skip": "Skip",
-            "ourHuntbotAPI": "Our Huntbot API (coming soon)",
-            "ourHuntbotDescription": "Huntbot: Advanced Discord Owo Tool Farm, currently only supports Huntbot captchas",
-            "notImplemented": "This feature is not implemented yet."
-        },
-        "captchaAPIKey": {
-            "enterKey": "Enter your API key for the captcha solving service: "
-        },
-        "prefix": {
-            "enterPrefix": "Enter your selfbot command Prefix, Empty to skip: ",
-            "invalidPrefix": "Invalid Prefix"
-        },
-        "gemUsage": {
-            "selectUsage": "Select how you want to use gems: ",
-            "skip": "Skip (Do not use gems)",
-            "fabledToCommon": "Fabled -> Common",
-            "commonToFabled": "Common -> Fabled"
-        },
-        "gemTier": {
-            "selectTiers": "Select gem tiers to use (spacebar to select): ",
-            "mustSelectOne": "You must select at least one gem tier.",
-            "common": "Common",
-            "uncommon": "Uncommon",
-            "rare": "Rare",
-            "epic": "Epic",
-            "mythical": "Mythical",
-            "legendary": "Legendary",
-            "fabled": "Fabled"
-        },
-        "trait": {
-            "selectTrait": "Select a trait to use: ",
-            "efficiency": "Efficiency",
-            "duration": "Duration",
-            "cost": "Cost",
-            "gain": "Gain",
-            "experience": "Experience",
-            "radar": "Radar"
-        },
-        "huntbotSolver": {
-            "selectSolver": "Select Huntbot solver: ",
-            "providedAPI": "Provided Captcha API: {api}",
-            "noAPI": "None",
-            "noAPIDisabled": "You did not set a captcha API provider",
-            "ourHuntbotAPI": "Our Huntbot API (currently free and supports Huntbot captchas)"
-        },
-        "prayCurse": {
-            "selectOptions": "Select which pray/curses you want to auto use (spacebar to select): ",
-            "praySelf": "Pray selfbot account",
-            "curseSelf": "Curse selfbot account",
-            "prayAdmin": "Pray notification reception",
-            "curseAdmin": "Curse notification reception"
-        },
-        "quoteAction": {
-            "selectActions": "Select which quote action you want to auto use (spacebar to select): ",
-            "owo": "OwO",
-            "quote": "Quote"
-        },
-        "rppAction": {
-            "selectActions": "Select which Run/Pup/Piku action you want to auto use (spacebar to select): ",
-            "run": "Run",
-            "pup": "Pup",
-            "piku": "Piku"
-        },
-        "toggleOptions": {
-            "autoLootbox": "Toggle Automatically Use Lootbox",
-            "autoFabledLootbox": "Toggle Automatically Use Fabled Lootbox",
-            "autoHuntbot": "Toggle Automatically Send/Receive Huntbot",
-            "autoCookie": "Toggle Automatically Send Cookie",
-            "autoClover": "Toggle Automatically Send Clover",
-            "autoDaily": "Toggle automatically claim daily rewards",
-            "autoSleep": "Toggle automatically pause randomly to avoid captcha",
-            "autoReload": "Toggle automatically reload config daily",
-            "useCustomPrefix": "Toggle using server OwO bot prefix",
-            "autoSell": "Toggle automatically sell animals once cash ran out",
-            "autoResume": "Toggle automatically resume after the captcha is solved",
-            "autoArmy": "Toggle Automatically Send Army (15 times daily)",
-            "autoBossFight": "Toggle Automatically Join Boss Fights (3 tickets daily)"
-        },
         "messages": {
-            "checkingAccount": "Checking account...",
-            "invalidToken": "Invalid token or QR code. Please try again.",
-            "configExported": "Configuration exported to: {path}",
-            "confirmDelete": "Are you sure you want to delete the configuration for {username}?",
-            "configDeleted": "Configuration for {username} deleted.",
-            "deletionCancelled": "Deletion cancelled."
+            "checkingAccount": "Checking account..."
         }
     },
     "commands": {

@@ -34,9 +34,20 @@ export class ConfigManager {
 
     private loadAll = () => {
         let globalData = this.globalDataManager.read() as Record<string, any>;
+        let globalChanged = false;
         if (globalData.channelID && !globalData.channels) {
             globalData.channels = globalData.channelID;
             delete globalData.channelID;
+            globalChanged = true;
+        }
+        if (typeof globalData.autoHuntbot === "boolean" || globalData.autoTrait) {
+            const enabled = typeof globalData.autoHuntbot === "boolean" ? globalData.autoHuntbot : (globalData.autoHuntbot?.enabled ?? true);
+            const autoTrait = globalData.autoTrait || globalData.autoHuntbot?.autoTrait;
+            globalData.autoHuntbot = { enabled, autoTrait };
+            delete globalData.autoTrait;
+            globalChanged = true;
+        }
+        if (globalChanged) {
             this.globalDataManager.write(globalData);
         }
         this.globalConfig = globalData || {};
@@ -48,6 +59,13 @@ export class ConfigManager {
             if (accountData.channelID && !accountData.channels) {
                 accountData.channels = accountData.channelID;
                 delete accountData.channelID;
+                dataChanged = true;
+            }
+            if (typeof accountData.autoHuntbot === "boolean" || accountData.autoTrait) {
+                const enabled = typeof accountData.autoHuntbot === "boolean" ? accountData.autoHuntbot : (accountData.autoHuntbot?.enabled ?? true);
+                const autoTrait = accountData.autoTrait || accountData.autoHuntbot?.autoTrait;
+                accountData.autoHuntbot = { enabled, autoTrait };
+                delete accountData.autoTrait;
                 dataChanged = true;
             }
         }
