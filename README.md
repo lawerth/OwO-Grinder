@@ -78,7 +78,7 @@ npm start import config.json # Trigger auto import and run with given config.jso
     "username": "your_username", // Optional: Display name (can be ignored)
     "token": "your_discord_token", // Required: Your Discord account token
     "guildID": "guild_id", // Optional: Server ID where the bot operates
-    "channelID": [ // Required: Array of channel IDs for farming (at least one)
+    "channels": [ // Required: Array of channel IDs for farming (at least one)
         "channel_id_1",
         "channel_id_2",
         "channel_id_3"
@@ -87,6 +87,7 @@ npm start import config.json # Trigger auto import and run with given config.jso
         "webhook"
     ],
     "webhookURL": "https://discord.com/api/webhooks/...", // Required if using webhook notification
+    "ntfyChannel": "your_ntfy_channel", // Required if using ntfy notification
     "adminID": "your_user_id", // Required for dms/call notifications, command usage, send cookie/clover, and webhook message mention
     "musicPath": "./path/to/music.mp3", // Required if using music notification
     "prefix": "!", // Command prefix for selfbot commands
@@ -114,9 +115,12 @@ npm start import config.json # Trigger auto import and run with given config.jso
         "pup",
         "piku"
     ],
+    "autoBuy": [1, 2, 3], // Auto buy items (1-7)
+    "autoArmy": false, // Enable/disable "owo army" command
+    "autoBossFight": false, // Enable/disable auto boss fighting
     "autoDaily": true, // Auto claim daily rewards
-    "autoCookie": true, // To use this, "adminID" option must be set
-    "autoClover": true, // To use this, "adminID" option must be set
+    "autoCookie": false, // To use this, "adminID" option must be set
+    "autoClover": false, // To use this, "adminID" option must be set
     "autoSell": true, // Auto sell animals when cash runs out
     "autoSleep": true, // Create random pause gaps to avoid captcha (5-20 mins)
     "autoReload": true, // Auto reload config daily

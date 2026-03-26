@@ -1,5 +1,6 @@
 import { ConfigSchema, Configuration } from "@/schemas/ConfigSchema.js";
 import path from "node:path";
+import { logger } from "@/utils/logger.js";
 
 import { DataManager } from "./DataManager.js";
 
@@ -32,10 +33,28 @@ export class ConfigManager {
     }
 
     private loadAll = () => {
-        const globalData = this.globalDataManager.read() as Partial<Configuration>;
+        let globalData = this.globalDataManager.read() as Record<string, any>;
+        if (globalData.channelID && !globalData.channels) {
+            globalData.channels = globalData.channelID;
+            delete globalData.channelID;
+            this.globalDataManager.write(globalData);
+        }
         this.globalConfig = globalData || {};
 
-        const data = this.dataManager.read();
+        const data = this.dataManager.read() as Record<string, any>;
+        let dataChanged = false;
+        for (const key in data) {
+            const accountData = data[key] as Record<string, any>;
+            if (accountData.channelID && !accountData.channels) {
+                accountData.channels = accountData.channelID;
+                delete accountData.channelID;
+                dataChanged = true;
+            }
+        }
+        if (dataChanged) {
+            this.dataManager.write(data);
+        }
+
         let existingConfigCount = Object.keys(data).length;
 
         for (const key in data) {
@@ -43,6 +62,10 @@ export class ConfigManager {
             const result = ConfigSchema.safeParse(mergedConfig);
             if (result.success) {
                 this.configs[key] = result.data as Configuration;
+            } else {
+                this.configs[key] = mergedConfig as Configuration;
+                const errors = result.error.issues.map(i => `${i.path.join(".")}: ${i.message}`).join(", ");
+                logger.warn(`Account ${key} has configuration errors but was loaded anyway: ${errors}`);
             }
         }
 
@@ -59,7 +82,7 @@ export class ConfigManager {
         const commonKeys: Record<string, any> = {};
 
         for (const prop in firstConfig) {
-            if (prop === "token" || prop === "username" || prop === "channelID") continue;
+            if (prop === "token" || prop === "username") continue;
 
             let isCommon = true;
             for (const key of keys) {
@@ -113,7 +136,7 @@ export class ConfigManager {
             const global = this.globalConfig as Record<string, any>;
             
             for (const prop in specificConfig) {
-                if (prop === "token" || prop === "username" || prop === "channelID") continue;
+                if (prop === "token" || prop === "username") continue;
                 
                 if (JSON.stringify(specificConfig[prop]) === JSON.stringify(global[prop])) {
                     delete specificConfig[prop];

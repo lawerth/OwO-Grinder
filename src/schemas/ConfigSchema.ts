@@ -6,7 +6,7 @@ export const ConfigSchema = z.object({
         error: "Token must have three parts separated by dots"
     }),
     guildID: z.string(),
-    channelID: z.array(z.string()).min(1, {
+    channels: z.array(z.string()).min(1, {
         error: "At least one channel ID is required"
     }),
     wayNotify: z.array(z.enum([

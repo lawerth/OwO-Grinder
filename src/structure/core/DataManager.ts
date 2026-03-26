@@ -49,9 +49,9 @@ export class DataManager {
             const data = fs.readFileSync(this.filePath, "utf-8");
             return JSON.parse(data);
         } catch (error) {
-            logger.error("Error reading data file:");
-            logger.error(error as Error);
-            return {};
+            logger.error(`[DataManager] Error parsing JSON in file: ${this.filePath}`);
+            logger.error(`[DataManager] Please fix the syntax error to prevent data loss.`);
+            throw error;
         }
     }
 

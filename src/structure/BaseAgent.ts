@@ -94,13 +94,13 @@ export class BaseAgent {
     }
 
     public setActiveChannel = (id?: string): GuildTextBasedChannel | undefined => {
-        const channelIDs = this.config.channelID;
+        const channels = this.config.channels;
 
-        if (!channelIDs || channelIDs.length === 0) {
+        if (!channels || channels.length === 0) {
             throw new Error("No channel IDs provided in the configuration.");
         }
 
-        const channelID = id || channelIDs[ranInt(0, channelIDs.length)];
+        const channelID = id || channels[ranInt(0, channels.length)];
         try {
             const channel = this.client.channels.cache.get(channelID);
             if (channel && channel.isText()) {
@@ -110,7 +110,7 @@ export class BaseAgent {
                 return this.activeChannel;
             } else {
                 this.logger.warn(t("agent.messages.invalidChannel", { channelID }));
-                this.config.channelID = this.config.channelID.filter(id => id !== channelID);
+                this.config.channels = this.config.channels.filter(id => id !== channelID);
                 this.logger.info(t("agent.messages.removedInvalidChannel", { channelID }));
             }
         } catch (error) {

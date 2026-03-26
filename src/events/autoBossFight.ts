@@ -13,7 +13,6 @@ export default Schematic.registerEvent({
 
         if (!agent.config.autoBossFight) return;
         if (message.author.id !== agent.owoID) return;
-        if (!agent.config.channelID.includes(message.channel.id)) return;
 
         const hasBossContent = message.content?.includes("A Guild Boss Appeared!")
             || message.components?.some((c: any) => {
@@ -22,6 +21,12 @@ export default Schematic.registerEvent({
             });
 
         if (!hasBossContent) return;
+        
+        // Human-like behavior: 20% chance to skip this boss fight
+        if (Math.random() < 0.2) {
+            logger.info("Human-like behavior: Skipping this boss fight message.");
+            return;
+        }
 
         // Prevent duplicate clicks on the same boss fight
         // This avoids the "Are you sure you want to use another boss ticket?" prompt
@@ -44,7 +49,7 @@ export default Schematic.registerEvent({
             if (oldest) joinedBossFights.delete(oldest);
         }
 
-        const delay = ranInt(2000, 6000);
+        const delay = ranInt(5000, 10000);
         logger.info(`Boss fight detected! Joining in ${(delay / 1000).toFixed(1)}s... (${agent.bossFightTickets} tickets left)`);
 
         await agent.client.sleep(delay);

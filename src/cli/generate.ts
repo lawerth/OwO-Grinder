@@ -18,7 +18,7 @@ export const handler = async (argv: { filename: string }) => {
     const configTemplate: Partial<Configuration> = {
         token: "<your-token>",
         guildID: "<your-guild-id>",
-        channelID: ["<your-channel-id-1>", "<your-channel-id-2>", "<your-channel-id-3>"],
+        channels: ["<your-channel-id-1>", "<your-channel-id-2>", "<your-channel-id-3>"],
         wayNotify: ["webhook", "dms", "call", "music", "popup", "ntfy"],
         webhookURL: "https://your-webhook-url.com",
         ntfyChannel: "<your-ntfy-channel-name>",
