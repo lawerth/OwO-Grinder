@@ -58,8 +58,7 @@ npm start [command] [options]
 npm start -- -- [options]
 
 # Example
-npm start generate config.json # generate config-sample.json
-npm start import config.json # Trigger auto import and run with given config.json
+npm start import <username> # Start the bot for the specified user from data
 
 # CLI Options
 -s, --skip-check-update # Skip the update check
@@ -71,7 +70,7 @@ npm start import config.json # Trigger auto import and run with given config.jso
 
 # ⚙️ Configuration Guide
 
-**Generate sample config**: Use `npm start generate config.json` to create a template
+Manual configuration is done by editing the files in the `config/` directory.
 
 ```js
 {
@@ -95,7 +94,6 @@ npm start import config.json # Trigger auto import and run with given config.jso
     "apiKey": "yescaptcha_api_key", // Required if captchaAPI is set
     "autoHuntbot": true, // Enable/disable huntbot automation
     "autoTrait": "efficiency", // Options: "efficiency", "duration", "cost", "gain", "experience", "radar"
-    "useOurHuntbotAPI": true, // Use Our OwO Grinder API: Solves huntbot captchas
     "autoPray": [ // Auto pray/curse commands.
         "pray", //You can change value "curse"
         "pray user_id_here", // You can target specific users

@@ -33,7 +33,6 @@ export const ConfigSchema = z.object({
         "experience",
         "radar"
     ]).optional(),
-    useOurHuntbotAPI: z.boolean().default(true).optional(),
     autoPray: z.array(z.string()).default(["pray"]),
     autoGem: z.union([z.literal(0), z.literal(-1), z.literal(1)]).default(0),
     gemTier: z.array(z.enum([

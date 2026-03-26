@@ -1,58 +1,40 @@
-import path from "node:path";
-import fs from "node:fs";
-import { ConfigSchema, Configuration } from "@/schemas/ConfigSchema.js";
+import { ConfigManager } from "@/structure/core/ConfigManager.js";
 import { BaseAgent } from "@/structure/BaseAgent.js";
 import { logger } from "@/utils/logger.js";
 import { ExtendedClient } from "@/structure/core/ExtendedClient.js";
 
-import { t } from "@/utils/locales.js";
-
-export const command = "import <filename>";
-export const desc = "Import a config file for instant setup";
+export const command = "import <username>";
+export const desc = "Start the bot for a specific user from data.json";
 export const builder = {
-    filename: {
+    username: {
         type: "string",
         demandOption: true,
-        description: "The name of the config file to import",
+        description: "The username to start the bot for",
     },
 };
 
-export const handler = async (argv: { filename: string }) => {
-    const filePath = path.resolve(process.cwd(), argv.filename);
+export const handler = async (argv: { username: string }) => {
+    const configManager = new ConfigManager();
+    const allKeys = configManager.getAllKeys();
+    
+    const targetKey = allKeys.find(key => {
+        const conf = configManager.get(key);
+        return conf?.username?.toLowerCase() === argv.username.toLowerCase();
+    });
 
-    if (!fs.existsSync(filePath)) {
-        logger.error(t("cli.import.fileNotFound", { filePath }));
-        return;
+    if (!targetKey) {
+        logger.error(`User "${argv.username}" not found in config/data.json`);
+        process.exit(1);
     }
 
-    if (path.extname(filePath) !== ".json") {
-        logger.error(t("cli.import.notJSON", { filePath }));
-        return;
-    }
-
-    let config: Configuration;
+    const config = configManager.get(targetKey)!;
+    
     try {
-        const configData = fs.readFileSync(filePath, "utf-8");
-        config = JSON.parse(configData);
-
-        // Validate the configuration
-        const validatedConfig = ConfigSchema.safeParse(config);
-        if (!validatedConfig.success) {
-            throw new Error(`Invalid configuration: ${validatedConfig.error.message}`);
-        }
-
-        logger.info(t("cli.import.importSuccess"));
-        
         const client = new ExtendedClient();
-        try {
-            await client.checkAccount(validatedConfig.data.token);
-            await BaseAgent.initialize(client, validatedConfig.data);
-        } catch (error) {
-            logger.error(t("cli.import.startFailed"));
-            logger.error(error as Error);
-        }
+        await client.checkAccount(config.token);
+        await BaseAgent.initialize(client, config);
     } catch (error) {
-        logger.error(t("cli.import.importError"));
+        logger.error(`Failed to start bot for ${argv.username}:`);
         logger.error(error as Error);
         process.exit(1);
     }

@@ -196,18 +196,7 @@ export default Schematic.registerFeature({
         const attachmentUrl = passwordMsg.attachments.first()?.url;
         if (!attachmentUrl) return;
 
-        let password: string | undefined;
-        if (agent.config.captchaAPI && agent.config.apiKey && !agent.config.useOurHuntbotAPI) {
-            password = await solvePassword(attachmentUrl, {
-                provider: agent.config.captchaAPI,
-                apiKey: agent.config.apiKey
-            });
-        } else {
-            if (!agent.config.useOurHuntbotAPI) {
-                logger.warn(t("features.autoHuntbot.errors.noCaptchaAPI"));
-            }
-            password = await solvePassword(attachmentUrl, options);
-        }
+        const password = await solvePassword(attachmentUrl, options);
 
         if (!password) return;
 

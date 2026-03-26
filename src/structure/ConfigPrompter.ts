@@ -48,9 +48,6 @@ export class ConfigPrompter extends BasePrompter {
                     name: account.username,
                     value: account.id
                 })),
-                new Separator(),
-                { name: t("ui.accounts.loginNewToken"), value: "token" },
-                { name: t("ui.accounts.loginQR"), value: "qr" },
             ]
         });
 
